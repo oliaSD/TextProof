@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Ответ на запрос на создание пользователя в системе",
+  "properties": {
+    "token": {
+      "description": "Токен пользователя",
+      "$ref": "auth_response.json"
+    }
+  }
+}

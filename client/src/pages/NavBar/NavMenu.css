@@ -1,0 +1,29 @@
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.headerStyle {
+    border: none;
+    color: white;
+    background-color: black;
+    height: 60px;
+    padding: 10px;
+    margin: 0px 50px 0px 0px;
+}
+
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}

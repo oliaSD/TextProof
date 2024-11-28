@@ -1,0 +1,175 @@
+openapi: 3.0.3
+
+info:
+  title: Requests for Service Users
+  version: 1.0.0
+  description: OpenApi Specification for Service Users
+
+servers:
+  - url: /
+    description: Default Server URL
+
+paths:
+
+  /auth:
+    post:
+      tags:
+        - Auth
+      summary: Метод авторизации пользователя в системе
+      description: Метод авторизации пользователя в системе
+      operationId: auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'model/auth_request.json'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'model/auth_response.json'
+        400:
+          description: Incorrect request format
+        404:
+          description: User not found
+        500:
+          description: Internal server error
+
+  /create:
+    post:
+      tags:
+        - Users
+      summary: Метод создания пользователя в системе
+      description: Метод создания пользовтаеля в системе
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'model/create_user_request.json'
+        required: true
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'model/create_user_response.json'
+        400:
+          description: Incorrect request format
+        409:
+          description: Username or email already used
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+  /update:
+    post:
+      tags:
+        - Users
+      summary: Метод обновления информации пользователя
+      description: Метод обновления информации пользователя
+      operationId: update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'model/create_user_request.json'
+        required: true
+      responses:
+        200:
+          description: Success
+        400:
+          description: Incorrect request format
+        403:
+          description: Permission denied
+        409:
+          description: Invalid items in request
+        412:
+          description: Invalid loan status
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+  /delete/{username}:
+    delete:
+      tags:
+        - Users
+      summary: Метод удаления пользователя из системы
+      description: Метод удаления пользователя из системы
+      operationId: delete
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+        400:
+          description: Incorrect request format
+        412:
+          description: Invalid loan status
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+  /info:
+    get:
+      tags:
+        - Users
+      summary: Метод получения информации пользователя
+      description: Метод получения информации пользователя
+      operationId: info
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'model/info_user_response.json'
+        400:
+          description: Incorrect request format
+        403:
+          description: Auth error
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+  /find:
+    get:
+      tags:
+        - Users
+      summary: Метод поиска пользователя
+      description: Метод поиска пользователя
+      operationId: find
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+            description: Имя пользователя в системе
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'model/find_user_response.json'
+        400:
+          description: Incorrect request format
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+tags:
+  - name: Users
+    description: "API для работы с сервисом Users"

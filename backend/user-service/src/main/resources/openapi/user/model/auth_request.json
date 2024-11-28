@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Запрос на авторизацию пользователя в системе",
+  "properties": {
+    "username": {
+      "type": "string",
+      "title": "Имя пользователя",
+      "example": "olga"
+    },
+    "password": {
+      "type": "string",
+      "description": "Пароль пользователя",
+      "example": "password1_D"
+    }
+  },
+  "required": [
+    "username",
+    "password"
+  ]
+}

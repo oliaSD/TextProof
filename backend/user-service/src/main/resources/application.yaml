@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: user-service
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/antiplagiat
+    username: postgres
+    password: postgres
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: v3/api-docs
+  swagger-ui:
+    enabled: true
+    csrf:
+      enabled: true
+    url: v3/api-docs
+
+jwt:
+  token:
+    secret: bf4ab88dab6d9941fc9a49b2d321dc2c64f65bf342269caa43861740574ef296c293cb4fcbf097ba8f7a31814fecca3d9ae876d667339723e77ff60d4c5859824072863a3902b7d8151e21fff10ba382c36b93b0dde21b9ff10da22a100433ece34efb0ed3732d95929794148b03075f608235cc50ac9f054459be3a97a24c5d03510bda713da5f58be0742e666a76db1e7e2b3bb8c0acefc4ae68f73cf14827b3d601ef7f3d44590b3230ba013aed6413a70c9ac416a99b7a01e3d475edda003c587d10572046fd66c0fc6399d07a7965e05bd2ea5c0e2702f5778de7e7e1a50f387effb3d5b1deb74602ee6817fa0e3688ebbc6578e93bb99d9e8c48d5594a
+    expired: 3600
