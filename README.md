@@ -11,6 +11,22 @@
 
 https://github.com/oliaSD/TextProof/blob/main/%D0%9B%D0%A02.docx
 
+Блок-схема
+
+![image](https://github.com/user-attachments/assets/2991fd3b-a74a-4582-9264-1ab05e3dafc0)
+
+Диаграмма развертывания
+
+![image](https://github.com/user-attachments/assets/b8581c23-cc75-4259-b7bc-a0eaca0d81c7)
+
+Диаграмма активностей
+
+![image](https://github.com/user-attachments/assets/baf0617b-764f-4df0-9a1a-e53ea2e567f5)
+
+Диаграмма состояний
+
+![image](https://github.com/user-attachments/assets/d51e9147-c169-4b10-b20f-f46ea6365fba)
+
 **Пользовательский интерфейс**
 
 User-flow диаграммы
