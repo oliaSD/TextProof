@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Ответ на получение статей пользователя",
+  "properties": {
+    "papers": {
+      "type": "array",
+      "title": "Статьи пользователя",
+      "items": {
+        "description": "Метаданные статьи",
+        "$ref": "file_metadata.json"
+      }
+    }
+  },
+  "required": [
+    "token"
+  ]
+}

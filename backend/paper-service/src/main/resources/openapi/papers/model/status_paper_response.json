@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Ответ на получение статуса проверки статьи",
+  "properties": {
+    "status": {
+      "description": "Статус проверки",
+      "type": "string",
+      "enum": [
+        "check",
+        "non_check",
+        "finish_check"
+      ]
+    },
+    "reportId" : {
+      "type" : "number",
+      "format": "int64"
+    },
+    "paperId" : {
+      "type": "number",
+      "format": "int64"
+    },
+    "fileName" : {
+      "type": "string"
+    }
+  },
+  "required": [
+    "status"
+  ]
+}

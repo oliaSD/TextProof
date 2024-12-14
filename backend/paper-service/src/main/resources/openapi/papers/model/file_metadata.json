@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Метаданные файла",
+  "properties": {
+    "paperId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор статьи",
+      "example": "1234"
+    },
+    "fileName": {
+      "description": "Название файла",
+      "type": "string",
+      "example": "file"
+    },
+    "fileExtension": {
+      "description": "Разрешение файла",
+      "type": "string",
+      "example": ".pdf"
+    },
+    "size": {
+      "type": "integer",
+      "format": "int64",
+      "title": "Размер файла",
+      "example": "123245"
+    },
+    "wordCount": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Количество слов",
+      "example": "1234"
+    },
+    "createdDate": {
+      "description": "Дата создания файла",
+      "type": "string",
+      "format": "datetime",
+      "example": "2025.08.06:10:10:10.231312"
+    }
+  },
+  "required": [
+    "paperId",
+    "size",
+    "wordCount",
+    "createdDate",
+    "fileExtension",
+    "fileName"
+  ]
+}

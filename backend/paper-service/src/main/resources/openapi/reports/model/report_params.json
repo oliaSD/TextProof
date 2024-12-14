@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Параметры отчета о проверке",
+  "properties": {
+    "lastCheckTime": {
+      "type": "string",
+      "format": "datetime",
+      "description": "Время последней проверки",
+      "example": "2024-12-01:10:10:10.2312"
+    },
+    "createdDate": {
+      "description": "Дата создания отчета",
+      "type": "string",
+      "format": "datetime",
+      "example": "2025.08.06:10:10:10.231312"
+    },
+    "originalPercentage": {
+      "type": "number",
+      "description": "Процент оригинальности",
+      "example": "70"
+    },
+    "borrowingPercentage": {
+      "type": "number",
+      "description": "Процент заимствований",
+      "example": "20"
+    },
+    "citationPercentage": {
+      "type": "number",
+      "description": "Процент цитирования",
+      "example": "10"
+    },
+    "checkTime": {
+      "description": "Время проверки",
+      "type": "string",
+      "example": "2:10:02"
+    }
+  },
+  "required": [
+    "lastCheckTime",
+    "createdDate",
+    "originalPercentage",
+    "borrowingPercentage",
+    "citationPercentage",
+    "checkTime"
+  ]
+}

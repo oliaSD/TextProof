@@ -1,0 +1,37 @@
+openapi: 3.0.3
+
+info:
+  title: Requests for Service Web Search
+  version: 1.0.0
+  description: OpenApi Specification for Service Web Search
+
+servers:
+  - url: /
+    description: Default Server URL
+
+paths:
+
+  /search:
+    post:
+      tags:
+        - Web Search
+      summary: Метод поиска статьи пользователя на сервер
+      description: Метод поиска статьи пользователя на сервер
+      operationId: search
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'model/web_search_response.json'
+        400:
+          description: Incorrect request format
+        404:
+          description: User not found
+        500:
+          description: Internal server error
+
+tags:
+  - name: Web Search
+    description: "API для работы с сервисом Web Search"

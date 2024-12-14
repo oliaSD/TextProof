@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: user-service
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.format_sql: true
+      hibernate:
+        globally_quoted_identifiers: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/antiplagiat?currentSchema=papers_schema
+    username: postgres
+    password: postgres
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+      FAIL_ON_NUMBERS_FOR_ENUMS: true
+      FAIL_ON_NULL_FOR_PRIMITIVES: true
+      USE_BIG_DECIMAL_FOR_FLOATS: true
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: true
+    generator:
+      WRITE_BIGDECIMAL_AS_PLAIN: true
+    visibility:
+      field: any
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: v3/api-docs
+  swagger-ui:
+    enabled: true
+    csrf:
+      enabled: true
+    url: v3/api-docs
+
+
+api:
+  google:
+    search:
+      root-uri: "customsearch.googleapis.com"
+      schema: 'https'
+      path: '/customsearch/v1'
+      api: "AIzaSyAhC141maHBdsFhyNlecr5bS8C4qzTLPfQ"
+      cx: "a1a35c47065af40dd"
+  internal:
+    web-search:
+      base-url: http://127.0.0.1:7001
+      google: /google/search
+      yandex: /yandex/search
+      read-timeout: 60000
+      connect-timeout: 60000
+    document:
+      base-url: http://127.0.0.1:8070
+      full-text: '${api.internal.document.base-url}/api/processFulltextDocument'
+    default:
+      max-connections: 30
+      timeout: 6000
+server:
+  port: 8081

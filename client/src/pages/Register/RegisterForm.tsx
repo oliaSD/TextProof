@@ -18,38 +18,55 @@ import axios from 'axios';
 import styles from './login.module.scss'
 
 
-dayjs.extend(customParseFormat);
-const { Option } = Select;
 
+const styleButton: React.CSSProperties = {
+    backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
+    borderRadius: '1em',
+    padding: '12px 12px',
+    transition: 'all 0.5s ease',
+    fontSize: '10pt',
+    fontWeight: 'bold',
+    width: '15em',
+    height: '4.5em',
+    marginLeft: '60%'
+}
 
-// const formItemLayout = {
-//     labelCol: {
-//         xs: { span: 24 },
-//         sm: { span: 8 },
-//     },
-//     wrapperCol: {
-//         xs: { span: 24 },
-//         sm: { span: 16 },
-//     },
-// };
+const inputStyle: React.CSSProperties = {
+    backgroundColor: 'white',
+    borderRadius: '1em',
+    padding: '12px 12px',
+    transition: 'all 0.5s ease',
+    fontSize: '20pt',
+    fontWeight: 'bold',
+    width: '20em',
+    height: '3em',
+    margin: '0.3em'
+}
 
-// const tailFormItemLayout = {
-//     wrapperCol: {
-//         xs: {
-//             span: 24,
-//             offset: 0,
-//         },
-//         sm: {
-//             span: 16,
-//             offset: 8,
-//         },
-//     },
-// };
+const mainText: React.CSSProperties = {
+    fontSize: 40,
+    color: 'white',
+    margin: 0,
+    alignContent: 'center',
+    textAlign: 'center',
+    width: '100%',
+    padding: '2em 1em 0em 1em'
+}
 
+const innerText: React.CSSProperties = {
+    fontSize: 15,
+    color: 'white',
+    margin: 0,
+    alignContent: 'center',
+    textAlign: 'center',
+    width: '100%',
+    padding: '2em 1em 0em 1em'
+}
 
-const disabledDate: RangePickerProps['disabledDate'] = (current: any) => {
-    return current && current > dayjs().endOf('day');
-};
+const colorText: React.CSSProperties = {
+    ...mainText,
+    color: "#AE009A"
+}
 
 export const RegisterForm: React.FC = () => {
     const [form] = Form.useForm();
@@ -60,12 +77,7 @@ export const RegisterForm: React.FC = () => {
         const data = {
             "username": values.username,
             "password": values.password,
-            "firstName": "Ольга",
-            "lastName": "Семерник",
-            "surname": "Дмитриевна",
-            "groupNumber": "114302",
             "email": values.email,
-            "type": "STUDENT",
         };
         axios({
             method: 'post',
@@ -99,8 +111,7 @@ export const RegisterForm: React.FC = () => {
     return (
         <>
             {contextHolder}
-            <Form className={styles.register}
-                // {...formItemLayout}
+            <Form 
                 form={form}
                 name="register"
                 onFinish={onFinish}
@@ -108,26 +119,14 @@ export const RegisterForm: React.FC = () => {
                 scrollToFirstError
             >
                 <Form.Item
-                    name="firstname"
-                    tooltip="What do you want others to call you?"
-                    rules={[{ required: true, message: 'Please input your name!', whitespace: true }]}
-                >
-                    <Input placeholder="First name" />
-                </Form.Item>
-                <Form.Item
-                    name="secondname"
-                    tooltip="What do you want others to call you?"
-                    rules={[{ required: true, message: 'Please input your secondname!', whitespace: true }]}
-                >
-                    <Input placeholder="Last name"/>
-                </Form.Item>
-
-                <Form.Item
                     name="username"
-                    tooltip="What do you want others to call you?"
+                    tooltip="Какое у вас имя пользователя"
                     rules={[{ required: true, message: 'Please input your nickname!', whitespace: true }]}
                 >
-                    <Input placeholder="Username"/>
+                    <Input
+                        style={inputStyle}
+                        placeholder="Введите имя пользователя"
+                    />
                 </Form.Item>
 
                 <Form.Item
@@ -140,7 +139,10 @@ export const RegisterForm: React.FC = () => {
                     ]}
                     hasFeedback
                 >
-                    <Input.Password placeholder="Password"/>
+                    <Input.Password
+                        style={inputStyle}
+                        placeholder="Введите пароль"
+                    />
                 </Form.Item>
 
                 <Form.Item
@@ -162,7 +164,10 @@ export const RegisterForm: React.FC = () => {
                         }),
                     ]}
                 >
-                    <Input.Password placeholder="Confirm Password"/>
+                    <Input.Password
+                        style={inputStyle}
+                        placeholder="Подтвердите пароль"
+                    />
                 </Form.Item>
 
 
@@ -179,28 +184,10 @@ export const RegisterForm: React.FC = () => {
                         },
                     ]}
                 >
-                    <Input placeholder='Email'/>
-                </Form.Item>
-                <Form.Item
-                    name="phoneNumber"
-                    rules={[{ required: true, message: 'Please input your phone number!' }]}
-                >
-                    <Input placeholder='Phone Number' style={{ width: '100%' }} />
-                </Form.Item>
-                <Form.Item
-                    name="birthDay"
-                    rules={[{ required: true, message: 'Please input birthday' }]}
-                >
-                    <DatePicker placement={'bottomLeft'} disabledDate={disabledDate} />
-                </Form.Item>
-
-
-                <Form.Item
-                    name="gender"
-                    rules={[{ required: true, message: 'Please select gender!' }]}
-                >
-                    <Select placeholder="select your gender" options={[{value : "Male", label : <span>male</span>}]}>
-                    </Select>
+                    <Input
+                        style={inputStyle}
+                        placeholder='Введите email'
+                    />
                 </Form.Item>
                 <Form.Item
                     name="agreement"
@@ -211,14 +198,13 @@ export const RegisterForm: React.FC = () => {
                                 value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
                         },
                     ]}
-                    // {...tailFormItemLayout}
                 >
-                    <Checkbox>
-                        I have read the <a href="">agreement</a>
+                    <Checkbox style={innerText}>
+                       Согласие на обработку <a href="">персональныъ данных</a>
                     </Checkbox>
                 </Form.Item>
                 <Form.Item>
-                    <Button  htmlType="submit">
+                    <Button style = {styleButton}  htmlType="submit">
                         Register
                     </Button>
                 </Form.Item>

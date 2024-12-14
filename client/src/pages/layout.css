@@ -11,7 +11,7 @@
     position: 'sticky';
     top: 0;
     z-index: 1;
-    width: '100%';
+    width: 100%;
     display: 'flex';
     align-items: 'center';
     background-color: black;
@@ -20,8 +20,8 @@
 
 
 .footer {
-    background-color: black;
-    color: white;
+    background: linear-gradient(to top, #f01ec6c9, hwb(312 58% 12%));
+    box-shadow: -2px -43px 27px 10px linear-gradient(to top, #f01ec6c9, hwb(312 58% 12%));
     font-size: 20px;
     flex: 0 0 auto;
 }
@@ -30,6 +30,7 @@
 .content {
     flex: 1 0 auto;
     min-height: calc(100vh-80px);
+    background-color: black;
 }
 
 .copyright {
@@ -45,4 +46,9 @@
         font-size: 20px;
         color: white;
     }
+}
+
+.spaced-element {
+    margin-right: 20px;
+    margin-left: 20px;
 }

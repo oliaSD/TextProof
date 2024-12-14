@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Отчет о проверке",
+  "properties": {
+    "reportId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор отчета",
+      "example": "1234"
+    },
+    "paperId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор статьи",
+      "example": "1234"
+    },
+    "reportParams": {
+      "description": "Параметры отчета",
+      "$ref": "report_params.json"
+    },
+    "reportSources": {
+      "description": "Источники заимствований",
+      "type": "array",
+      "items": {
+        "description": "Источник",
+        "$ref": "report_sources.json"
+      }
+    },
+    "fileMetadata" : {
+      "description": "data file",
+      "$ref" : "file_metadata.json"
+    }
+  },
+  "required": [
+    "reportId",
+    "paperI",
+    "reportParams",
+    "reportSources"
+  ]
+}

@@ -1,0 +1,13 @@
+.ant-table
+  .ant-table-container
+  .ant-table-content
+  table
+  thead.ant-table-thead
+  .ant-table-cell {
+  background-color: rgba(67, 67, 67, 1);
+  width: 800;
+}
+
+.column-style {
+    background-color : "rgba(67, 67, 67, 1)",
+}

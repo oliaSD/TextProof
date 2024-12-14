@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Ответ на загрузку статьи пользователя в системе",
+  "properties": {
+    "report": {
+      "description": "Отчет",
+      "$ref": "report.json"
+    }
+  },
+  "required": [
+    "report"
+  ]
+}

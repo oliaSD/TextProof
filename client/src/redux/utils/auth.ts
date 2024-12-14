@@ -5,7 +5,6 @@ import { ILogin } from '../reducers/UserSlice';
 
 
 export function authUser(password: string, username: string, jwtToken: string, role : string) {
-    console.log(password,username,jwtToken)
     localStorage.setItem('username', username);
     localStorage.setItem('password', password);
     localStorage.setItem('token', jwtToken)

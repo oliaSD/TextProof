@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Отчет о проверке",
+  "properties": {
+    "sourceType": {
+      "type": "string",
+      "description": "Тип источника",
+      "enum": [
+        "local",
+        "web"
+      ]
+    },
+    "borrowingText": {
+      "description": "Заимствованный текст",
+      "type": "string",
+      "example": "Заимствованный текст"
+    },
+    "sourceUrl": {
+      "type": "string",
+      "description": "Ссылка на ресурс",
+      "example": "www.example.com"
+    }
+  },
+  "required": [
+    "sourceType",
+    "borrowingText",
+    "sourceUrl"
+  ]
+}

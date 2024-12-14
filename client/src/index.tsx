@@ -11,6 +11,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { ConfigProvider } from 'antd';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,6 +19,15 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+    <ConfigProvider
+                theme={{
+                    components: {
+                        Button: {
+                            borderRadius : 0
+                        }
+                    },
+                }}
+            ></ConfigProvider>
         <App />
     </Provider>
   </React.StrictMode>

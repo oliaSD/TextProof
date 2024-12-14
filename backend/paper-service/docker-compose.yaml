@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  paper_service:
+    image: semernik/paper_service
+    build: .
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+      - postgres-net
+    environment:
+      - spring.datasource.url=jdbc:postgresql://postgresql:5432/antiplagiat?currentSchema=papers_schema
+    depends_on:
+      - postgresql
+    volumes:
+      - .m2:/root/.m2
+
+  postgresql:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - postgres-net
+    environment:
+      POSTGRES_DB: antiplagiat
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+networks:
+  postgres-net:

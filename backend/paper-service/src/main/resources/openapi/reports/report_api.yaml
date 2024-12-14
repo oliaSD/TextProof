@@ -1,0 +1,81 @@
+openapi: 3.0.3
+
+info:
+  title: Requests for Service Reports
+  version: 1.0.0
+  description: OpenApi Specification for Service Reports
+
+servers:
+  - url: /
+    description: Default Server URL
+
+paths:
+
+  /reports/get/{username}/{reportId}:
+    get:
+      tags:
+        - Reports
+      summary: Метод получения отчета пользователя
+      description: Метод получения отчета пользователя
+      operationId: get
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'model/get_report_response.json'
+        400:
+          description: Incorrect request format
+        404:
+          description: User not found
+        500:
+          description: Internal server error
+
+  /reports/get/{username}:
+    get:
+      tags:
+        - Reports
+      summary: Метод получения отчетов пользователя
+      description: Метод получения отчетов пользователя
+      operationId: getAll
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'model/get_report_response.json'
+        400:
+          description: Incorrect request format
+        403:
+          description: Permission denied
+        409:
+          description: Invalid items in request
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+tags:
+  - name: Reports
+    description: "API для работы с Reports"

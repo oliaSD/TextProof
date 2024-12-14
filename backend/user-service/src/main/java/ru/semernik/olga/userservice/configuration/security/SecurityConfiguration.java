@@ -24,8 +24,7 @@ import org.springframework.web.cors.CorsConfiguration;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration extends
-    SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class SecurityConfiguration {
 
   private final UserDetailsService userDetailsService;
   private final JwtFilter jwtFilter;
@@ -42,8 +41,8 @@ public class SecurityConfiguration extends
     return http.authorizeHttpRequests(
             authorize -> authorize.requestMatchers("/create").permitAll()
                 .requestMatchers("/auth").permitAll()
-                .requestMatchers("/swagger-ui/**").permitAll()
-                .requestMatchers("/swagger-resources/**").permitAll()
+                .requestMatchers("/swagger-ui/**").hasRole("ADMIN")
+                .requestMatchers("/swagger-resources/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         ).csrf(AbstractHttpConfigurer::disable)
         .cors(cors -> cors.configurationSource(request -> {
@@ -81,8 +80,4 @@ public class SecurityConfiguration extends
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  @Override
-  public void configure(HttpSecurity http) {
-    http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-  }
 }

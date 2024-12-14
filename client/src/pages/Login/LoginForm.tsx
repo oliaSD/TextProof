@@ -14,6 +14,60 @@ import { useNavigate } from 'react-router';
 import styles from './login.module.scss'
 import { authUser } from '../../redux/utils/auth';
 
+
+
+const styleButton: React.CSSProperties = {
+  backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
+  borderRadius: '1em',
+  padding: '12px 12px',
+  transition: 'all 0.5s ease',
+  fontSize: '10pt',
+  fontWeight: 'bold',
+  width: '15em',
+  height: '4.5em',
+  margin: '1em'
+}
+
+const borderButton: React.CSSProperties = {
+  backgroundColor: 'white',
+  border: 'solid 0.4em #f01ec6c9',
+  borderRadius: '1em',
+  padding: '12px 12px',
+  transition: 'all 0.5s ease',
+  fontSize: '10pt',
+  fontWeight: 'bold',
+  width: '15em',
+  height: '4.5em',
+  margin: '1em'
+}
+
+const inputStyle: React.CSSProperties = {
+  backgroundColor: 'white',
+  borderRadius: '1em',
+  padding: '12px 12px',
+  transition: 'all 0.5s ease',
+  fontSize: '20pt',
+  fontWeight: 'bold',
+  width: '20em',
+  height: '4em',
+  margin: '0.3em'
+}
+
+const mainText: React.CSSProperties = {
+  fontSize: 40,
+  color: 'white',
+  margin: 0,
+  alignContent: 'center',
+  textAlign: 'center',
+  width: '100%',
+  padding: '2em 1em 0em 1em'
+}
+
+const colorText: React.CSSProperties = {
+  ...mainText,
+  color: "#AE009A"
+}
+
 const LoginForm: React.FC = () => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch()
@@ -39,9 +93,10 @@ const LoginForm: React.FC = () => {
         role: str.role,
         id: 0
       }
-      authUser(user.password, user.username, response.data.token, user.role  as string)
+      navigate("/account");
+      authUser(user.password, user.username, response.data.token, user.role as string)
       dispatch(auth(user))
-      navigate("/home");
+     
     }).catch(function (error) {
       if (error.response) {
         errorShow("Ошибка неверный логин или пароль")
@@ -73,8 +128,9 @@ const LoginForm: React.FC = () => {
           rules={[{ required: true, message: 'Пожалуйста, введите Логин' }]}
         >
           <Input
+            style={inputStyle}
             prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Логин"
+            placeholder="Введите имя пользователя"
           />
         </Form.Item>
         <Form.Item
@@ -82,17 +138,21 @@ const LoginForm: React.FC = () => {
           rules={[{ required: true, message: 'Пожалуйста, введите пароль' }]}
         >
           <Input
+            style={inputStyle}
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
-            placeholder="Пароль"
+            placeholder="Введите пароль"
           />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" className="login-form-button">
+          <Button htmlType="submit" style={styleButton}>
             Войти
           </Button>
+          <Button htmlType="button" style={borderButton} onClick={()=>{navigate('/register')}}>
+            Регистрация
+          </Button>
         </Form.Item>
-      </Form>
+      </Form >
     </>
   );
 }
