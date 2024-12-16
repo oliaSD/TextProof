@@ -3,7 +3,7 @@ import { useAppSelector } from "../../../hooks";
 import { RootState } from "../../../store";
 import { PlusOutlined } from '@ant-design/icons';
 
-import { Button, Carousel, Col, Flex, Row, Image, FloatButton, UploadProps, Upload, Table, TableProps, ConfigProvider } from "antd";
+import { Button, Col, Row, UploadProps, Upload, Table, TableProps, ConfigProvider } from "antd";
 
 import { useNavigate } from "react-router";
 import { ReactNode, useEffect, useState } from "react";
@@ -11,10 +11,11 @@ import { getUser } from '../../../redux/utils/auth'
 import axios from "axios";
 import './file.css'
 import { useAppDispatch } from '../../../hooks';
-import { update, add } from '../../../redux/reducers/CkeckReducer';
+import { add } from '../../../redux/reducers/CkeckReducer';
 import { Check } from "../../../redux/interface/Check";
 import 'dayjs'
 import dayjs from "dayjs";
+import { select } from "../../../redux/reducers/MenuReducer";
 
 const styleButton: React.CSSProperties = {
     backgroundColor: 'rgba(80, 80, 80, 1)',
@@ -134,10 +135,6 @@ const tableStyle: React.CSSProperties = {
 
 }
 
-const columnStyle: React.CSSProperties = {
-    backgroundColor: "rgba(67, 67, 67, 1)",
-}
-
 const splitText = (text: string | undefined) => {
     if (text === undefined)
         return ''
@@ -158,6 +155,7 @@ interface FileMetadata {
 export const FileComponent: React.FC = () => {
 
     const checkState = useAppSelector((state: RootState) => state.check)
+    const menuState = useAppSelector((state: RootState) => state.menu)
     const dispatch = useAppDispatch()
 
     const [files, setFiles] = useState<FileMetadata[]>([])
@@ -243,6 +241,7 @@ export const FileComponent: React.FC = () => {
                 percentage: 0.0
             }
             dispatch(add(newCheck))
+            dispatch(select('check'))
             navigate('/account/check')
         }).catch(function (error) {
             if (error.response) {
@@ -267,7 +266,7 @@ export const FileComponent: React.FC = () => {
         return files.map((file) => {
             return <>
                 <Col span={4} style={columnFileIconStyle}>
-                    <img style={file === selectedFile ? selectedFileIconStyle : imageFileIconStyle} src="../image/fileImage.png" onClick={() => selectFile(file)} />
+                    <img style={file === selectedFile ? selectedFileIconStyle : imageFileIconStyle} src="/image/fileImage.png" onClick={() => selectFile(file)} />
                     <p style={imageFileTextStyle}>{file.fileName}</p>
                 </Col>
             </>

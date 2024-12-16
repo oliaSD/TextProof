@@ -69,7 +69,7 @@ public class AsyncCheckService {
     reportsParams.setCitationPercentage((double) citation(text) / (double) wordCount * 100);
     log.info("Get citation");
     var sources = borrowing(text.stream()
-//        .filter(e -> countWord(e) > 15L)
+       .filter(e -> countWord(e) > 10L)
     )
         .map(borrowingText -> {
       ReportsSources reportsSources = new ReportsSources();

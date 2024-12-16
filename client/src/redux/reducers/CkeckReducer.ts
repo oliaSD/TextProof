@@ -34,10 +34,10 @@ export const checkSlice = createSlice({
             state.checks = action.payload
         },
         updatePercentage: (state, action: PayloadAction<Check[]>) => {
-            //state.checks = action.payload
-            state.checks.forEach(check => {
-                check.percentage = action.payload.find(e => e.paperId === check.paperId)?.percentage!
-            })
+            state.checks = action.payload
+            // state.checks.forEach(check => {
+            //     check.percentage = action.payload.find(e => e.paperId === check.paperId)?.percentage!
+            // })
         },
 
     },

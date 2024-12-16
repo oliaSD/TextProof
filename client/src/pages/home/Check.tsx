@@ -14,6 +14,7 @@ const styleButton: React.CSSProperties = {
     backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
     borderRadius: '1em',
     padding: '12px 48px',
+    border: 'none',
     transition: 'all 0.5s ease',
     fontSize: '10pt',
     fontWeight: 'bold',

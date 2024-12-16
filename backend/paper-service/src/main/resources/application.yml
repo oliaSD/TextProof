@@ -46,8 +46,8 @@ api:
       root-uri: "customsearch.googleapis.com"
       schema: 'https'
       path: '/customsearch/v1'
-      api: "AIzaSyAhC141maHBdsFhyNlecr5bS8C4qzTLPfQ"
-      cx: "a1a35c47065af40dd"
+      api: "AIzaSyCLYHGk6oqrZ18FEV3O2tgYcQhzViBydmo"
+      cx: "30b05c392065243bd"
   internal:
     web-search:
       base-url: http://127.0.0.1:7001
@@ -62,4 +62,4 @@ api:
       max-connections: 30
       timeout: 6000
 server:
-  port: 8081
+  port: 8082

@@ -1,0 +1,10 @@
+button {
+    background-color: 'rgba(80, 80, 80, 1)';
+    border: 'none';
+    padding: '12px 48px';
+    transition: 'all 0.5s ease';
+    font-size: '10pt';
+    font-weight: 'bold';
+    width: '15em';
+    height: '5em';
+}

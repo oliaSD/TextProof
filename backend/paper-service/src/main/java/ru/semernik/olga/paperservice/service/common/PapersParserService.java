@@ -24,7 +24,6 @@ import ru.semernik.olga.paperservice.dao.entity.PapersAttributeEntity;
 import ru.semernik.olga.paperservice.dao.entity.PapersEntity;
 import ru.semernik.olga.paperservice.dao.entity.PapersTextEntity;
 import ru.semernik.olga.paperservice.exception.CreateFileException;
-import ru.semernik.olga.paperservice.io.output.websearch.service.WebSearchService;
 
 @Service
 @RequiredArgsConstructor
@@ -87,6 +86,7 @@ public class PapersParserService {
 
     return Arrays.stream(paragraphPattern.split(text))
         .map(String::trim)
-        .filter(paragraph -> !paragraph.isEmpty());
+        .filter(paragraph -> !paragraph.isEmpty())
+        .map(paragraph -> paragraph.replaceAll("\n", " "));
   }
 }

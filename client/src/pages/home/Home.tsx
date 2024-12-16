@@ -18,21 +18,6 @@ const mainText: React.CSSProperties = {
     padding: '2em 1em 0em 1em'
 }
 
-const bottomText: React.CSSProperties = {
-    fontSize: 40,
-    color: 'white',
-    margin: 0,
-    alignContent: 'center',
-    textAlign: 'center',
-    width: '100%',
-    padding: '0em 1em 0em 1em'
-}
-
-const colorText: React.CSSProperties = {
-    ...mainText,
-    color: "#AE009A"
-}
-
 const column: React.CSSProperties = {
     background: 'black',
     margin: '16px 16px',
@@ -45,16 +30,6 @@ const column: React.CSSProperties = {
     justifyContent: 'top',
     alignItems: 'center',
 }
-
-const centerColumn: React.CSSProperties = {
-    ...column,
-    borderLeft: '2px solid white',
-    borderRight: '2px solid white',
-    paddingLeft: '4em',
-    paddingRight: '4em',
-    borderColor: 'white'
-}
-
 const row: React.CSSProperties = {
     background: 'black',
     margin: '16px 16px',
@@ -80,6 +55,7 @@ const textInner: React.CSSProperties = {
 const styleButton: React.CSSProperties = {
     backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
     borderRadius: '1em',
+    border: 'none',
     padding: '12px 48px',
     transition: 'all 0.5s ease',
     fontSize: '10pt',
@@ -123,7 +99,7 @@ export const HomeComponent: React.FC = () => {
                 </Col>
                 <Col xs={2} sm={4} md={10} lg={16} xl={8} className="column">
                     <>
-                        <img style={imageStyle} src="image/homeImage.png" />
+                        <img style={imageStyle} src="/image/homeImage.png" />
                     </>
                 </Col>
             </Row>

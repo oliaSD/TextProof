@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import userReducer from '../src/redux/reducers/UserSlice'
 import checkReducer from '../src/redux/reducers/CkeckReducer'
 import reportReducer from '../src/redux/reducers/ReportReducer'
+import menuReducer from '../src/redux/reducers/MenuReducer'
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
         check: checkReducer,
-        report : reportReducer
+        report : reportReducer,
+        menu : menuReducer
     },
 })
 

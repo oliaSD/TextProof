@@ -1,22 +1,17 @@
 
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { RootState } from "../../../store";
-import { PlusOutlined } from '@ant-design/icons';
-import ReactEcharts from "echarts-for-react";
 
-
-import { PieChart } from '@opd/g2plot-react'
-
-import { Button, Carousel, Col, Flex, Row, Image, FloatButton, UploadProps, Upload, Table, TableProps, ConfigProvider, Progress, ProgressProps } from "antd";
-import { update, add, set, updatePercentage } from '../../../redux/reducers/CkeckReducer';
+import { Button, Flex, Row, ConfigProvider, Progress, ProgressProps } from "antd";
+import { set} from '../../../redux/reducers/CkeckReducer';
 import { select } from '../../../redux/reducers/ReportReducer';
+import { select as selectMenu } from '../../../redux/reducers/MenuReducer';
 import { useNavigate } from "react-router";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect,  useState } from "react";
 import { getUser } from '../../../redux/utils/auth'
 import axios from "axios";
 import './check.css'
 import { Check } from "../../../redux/interface/Check";
-import { calc } from "antd/es/theme/internal";
 
 
 
@@ -43,11 +38,6 @@ const mainText: React.CSSProperties = {
     padding: '2em 1em 0em 1em'
 }
 
-const colorText: React.CSSProperties = {
-    ...mainText,
-    color: "#AE009A"
-}
-
 const baseColumn: React.CSSProperties = {
     background: 'black',
     margin: '16px 16px',
@@ -65,15 +55,6 @@ const column: React.CSSProperties = {
     alignItems: 'center',
 }
 
-const columnFileIconStyle: React.CSSProperties = {
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignContent: 'stretch',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-}
-
-
 
 const baseRow: React.CSSProperties = {
     background: 'black',
@@ -82,67 +63,25 @@ const baseRow: React.CSSProperties = {
     display: 'flex',
 }
 
-const row: React.CSSProperties = {
+const rowFileIconStyle: React.CSSProperties = {
     ...baseRow,
+    width: '100%',
+    height: 'calc(100vh - 200px )',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignContent: 'stretch',
     justifyContent: 'space-evenly',
     alignItems: 'flex-center',
-}
-
-const rowFileIconStyle: React.CSSProperties = {
-    ...baseRow,
-    width: '100%',
-    height: 'calc(100vh - 200px )',
     overflow: 'auto',
 }
-
-const imageFileIconStyle: React.CSSProperties = {
-    width: 100, height: 100
-}
-
-const selectedFileIconStyle: React.CSSProperties = {
-    ...imageFileIconStyle,
-    backgroundColor: 'silver',
-    borderRadius: '30px'
-}
-
-const imageFileTextStyle: React.CSSProperties = {
-    color: 'white',
-    width: 100
-}
-
-const tableStyle: React.CSSProperties = {
-    width: '90%',
-    backgroundColor: "rgba(67, 67, 67, 1)",
-    margin: '2em'
-
-}
-
-const columnStyle: React.CSSProperties = {
-    backgroundColor: "rgba(67, 67, 67, 1)",
-}
-
-interface FileMetadata {
-    paperId: number,
-    fileName: string,
-    fileExtension: string,
-    size: number,
-    wordCount: number,
-    createdDate: Date
-}
-
 
 export const CheckAccountComponent: React.FC = () => {
 
     const checkState = useAppSelector((state: RootState) => state.check)
     const dispatch = useAppDispatch()
+    const [checks, setChecks] = useState<Check[]>(checkState.checks)
 
     const navigate = useNavigate()
-    function handleClick() {
-        navigate('/check')
-    }
 
     const getChecks = () => {
         axios({
@@ -151,16 +90,15 @@ export const CheckAccountComponent: React.FC = () => {
             withCredentials: false,
         }).then(function (response) {
             let res = response.data as Check[]
-            res.forEach(e => e.percentage = 0)
-            console.log(res)
+            res.forEach(e => (e.status === 'fihish_check' ? e.percentage = 100 : e.percentage = 0))
             dispatch(set(res))
         }).catch(function (error) {
-            if (error.response) {
-                console.log("Ошибка неверный логин или пароль")
-            } else if (error.request) {
-                console.log('Сервер недоступен')
-            }
-        })
+                if (error.response) {
+                    console.log("Ошибка неверный логин или пароль")
+                } else if (error.request) {
+                    console.log('Сервер недоступен')
+                }
+            })
     }
 
     const status = (check: Check) => {
@@ -170,9 +108,7 @@ export const CheckAccountComponent: React.FC = () => {
             withCredentials: false,
         }).then(function (response) {
             const res = response.data.status as string
-            if (res === 'finish_check') {
 
-            }
         }).catch(function (error) {
             if (error.response) {
                 console.log("Ошибка неверный логин или пароль")
@@ -189,21 +125,27 @@ export const CheckAccountComponent: React.FC = () => {
             withCredentials: false,
         }).then(function (response) {
             let res = response.data as Check[]
+            console.log(res)
             res.forEach(element => {
-                if (element.status === 'finish_check') {
-                    element.percentage = 100
-                }
-                else {
-                    if (element.percentage < 50) {
-                        element.percentage += 10
-                    } else if (element.percentage < 80) {
-                        element.percentage += 5
-                    } else if (element.percentage < 99) {
-                        element.percentage += 3
-                    }
-                }
+                setChecks((prevState) =>
+                    prevState.map((item) => {
+                        let newPercentage = item.percentage;
+                        if (element.status === 'finish_check') {
+                            newPercentage = 100
+                        }
+                        else
+                            if (newPercentage < 50) {
+                                newPercentage += 10;
+                            } else if (newPercentage < 80) {
+                                newPercentage += 5;
+                            } else if (newPercentage < 95) {
+                                newPercentage += 3;
+                            }
+
+                        return { ...item, percentage: newPercentage };
+                    })
+                );
             });
-            dispatch(updatePercentage(res))
         }).catch(function (error) {
             if (error.response) {
                 console.log("Ошибка неверный логин или пароль")
@@ -216,7 +158,7 @@ export const CheckAccountComponent: React.FC = () => {
     useEffect(() => {
         document.title = "Проверка"
         getChecks()
-        const intervalId = setInterval(updateCheck, 1000)
+        const intervalId = setInterval(updateCheck, 5000)
         return () => clearInterval(intervalId);
     }, [])
 
@@ -225,12 +167,11 @@ export const CheckAccountComponent: React.FC = () => {
         '100%': 'hwb(312 58% 12%)',
     };
 
-    const showReport =(check : Check) =>{
+    const showReport = (check: Check) => {
+        dispatch(selectMenu('report'))
         dispatch(select(check.reportId))
         navigate(`/account/report`)
     }
-
-
 
     return (
         <>
@@ -247,8 +188,8 @@ export const CheckAccountComponent: React.FC = () => {
             <Row style={rowFileIconStyle}>
                 <Flex style={column} vertical gap="middle">
                     {
-                        checkState.checks === undefined ? <></> :
-                            checkState.checks.map(check => {
+                        checks === undefined ? <></> :
+                            checks.map(check => {
                                 return <>
                                     <p style={mainText}> {check.fileName}</p>
                                     <Progress
@@ -258,10 +199,10 @@ export const CheckAccountComponent: React.FC = () => {
                                         strokeColor={twoColors}
                                         trailColor='white'
                                         size={["60em", 20]} />
-                                        {
-                                            check.percentage === 100 ? <Button style={styleButton} onClick = {()=>showReport(check)}>Посмотреть отчет</Button>  : <></>
-                                        }
-                                      
+                                    {
+                                        check.percentage === 100 ? <Button style={styleButton} onClick={() => showReport(check)}>Посмотреть отчет</Button> : <></>
+                                    }
+
                                 </>
                             })
                     }

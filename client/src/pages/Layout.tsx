@@ -1,4 +1,4 @@
-import { Layout } from 'antd';
+import { ConfigProvider, Layout } from 'antd';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './layout.css';
@@ -36,21 +36,32 @@ const FooterContainer: React.FC = () => {
 
 const Lay = (props: { children?: React.ReactNode }) => (
   <>
-    <Layout className='layout'>
-      <Header className='headerStyle' >
-        <NavMenu />
-      </Header>
-      
-      <Content className='content'>
-        {props.children}
-      </Content>
-      <Footer className='footer'>
-        <>
-          <FooterContainer />
-        </>
-      </Footer>
-      {/* <Footer style={footerStyle} /> */}
-    </Layout>
+    {/* <ConfigProvider
+      theme={{
+        components: {
+          Button: {
+            borderRadius: 'none',
+            algorithm: true,
+          }
+        },
+      }}
+    > */}
+      <Layout className='layout'>
+        <Header className='headerStyle' >
+          <NavMenu />
+        </Header>
+
+        <Content className='content'>
+          {props.children}
+        </Content>
+        <Footer className='footer'>
+          <>
+            <FooterContainer />
+          </>
+        </Footer>
+        {/* <Footer style={footerStyle} /> */}
+      </Layout>
+    {/* </ConfigProvider> */}
   </>
 );
 

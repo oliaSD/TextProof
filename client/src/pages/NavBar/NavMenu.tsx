@@ -42,40 +42,35 @@ const navLinkStyle: React.CSSProperties = {
 
 const NavMenu: React.FC = () => {
 
-
-    const [current, setCurrent] = useState('home')
-
-    const dispatch = useAppDispatch()
     const navigate = useNavigate();
-    const user = useAppSelector((state: RootState) => state.user)
 
     return (
         <>
             <Flex gap={30} className='headerStyle' align={'flex-end'} justify={'flex-end'}>
-                <img style={imageStyle} src="image/logo.png" onClick={() => navigate('/home')}></img>
+                <img style={imageStyle} src="/image/logo.png" onClick={() => navigate('/home')}></img>
                 <Flex gap={30} className='headerStyle' align={'flex-center'} justify={'flex-end'}>
                     <div className='blockDiv'>
 
                         <NavLink style={navLinkStyle} to="/check">
-                            <img style={imageIconStyle} src="image/checkIcon.png" ></img>
+                            <img style={imageIconStyle} src="/image/checkIcon.png" ></img>
                             Проверка
                         </NavLink>
                     </div>
                     <div className='blockDiv'>
                         <NavLink style={navLinkStyle} to="/grammar">
-                            <img style={imageIconStyle} src="image/grammarIcon.png" ></img>
+                            <img style={imageIconStyle} src="/image/grammarIcon.png" ></img>
                             Грамматика
                         </NavLink>
                     </div>
                     <div className='blockDiv'>
                         <NavLink style={navLinkStyle} to="/analytics">
-                            <img style={imageIconStyle} src="image/analyticIcon.png" ></img>
+                            <img style={imageIconStyle} src="/image/analyticIcon.png" ></img>
                             Аналитика
                         </NavLink>
                     </div>
                     <div className='blockDiv'>
                         <NavLink style={navLinkStyle} to="/reports">
-                            <img style={imageIconStyle} src="image/reportIcon.png" ></img>
+                            <img style={imageIconStyle} src="/image/reportIcon.png" ></img>
                             Отчеты
                         </NavLink>
                     </div>

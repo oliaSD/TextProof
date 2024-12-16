@@ -41,6 +41,7 @@ html {
 .nav-button {
     background-image: linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%));
     border-radius: 1em;
+    border: none;
     padding: 12px 4px;
     transition: all 0.5s ease;
     font-size: 10pt;
@@ -48,4 +49,4 @@ html {
     width: 10em;
     height: 2.5em;
     margin-top: 1em;
-  }
+}

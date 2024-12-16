@@ -19,6 +19,7 @@ import { authUser } from '../../redux/utils/auth';
 const styleButton: React.CSSProperties = {
   backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
   borderRadius: '1em',
+  border : 'none',
   padding: '12px 12px',
   transition: 'all 0.5s ease',
   fontSize: '10pt',
@@ -53,20 +54,7 @@ const inputStyle: React.CSSProperties = {
   margin: '0.3em'
 }
 
-const mainText: React.CSSProperties = {
-  fontSize: 40,
-  color: 'white',
-  margin: 0,
-  alignContent: 'center',
-  textAlign: 'center',
-  width: '100%',
-  padding: '2em 1em 0em 1em'
-}
 
-const colorText: React.CSSProperties = {
-  ...mainText,
-  color: "#AE009A"
-}
 
 const LoginForm: React.FC = () => {
   const [form] = Form.useForm();
@@ -93,7 +81,7 @@ const LoginForm: React.FC = () => {
         role: str.role,
         id: 0
       }
-      navigate("/account");
+      navigate("/account/file");
       authUser(user.password, user.username, response.data.token, user.role as string)
       dispatch(auth(user))
      

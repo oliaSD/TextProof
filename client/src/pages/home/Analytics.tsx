@@ -13,6 +13,7 @@ import { useEffect } from "react";
 const styleButton: React.CSSProperties = {
     backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
     borderRadius: '1em',
+    border: 'none',
     padding: '12px 48px',
     transition: 'all 0.5s ease',
     fontSize: '10pt',
@@ -103,7 +104,7 @@ export const AnalyticComponent: React.FC = () => {
             </p>
             <Row style={row}>
                 <Col span={6} style={column}>
-                    <img style={imageStyle} src="image/analyticImage.png" />
+                    <img style={imageStyle} src="/image/analyticImage.png" />
                 </Col>
                 <Col span={14} offset={2}>
                     <Row>
@@ -126,7 +127,7 @@ export const AnalyticComponent: React.FC = () => {
                     </p>
                 </Col>
                 <Col span={6} style={column}>
-                    <img src = "image/analyticImageBottom.png" style={imageStyleBottom}/>
+                    <img src = "/image/analyticImageBottom.png" style={imageStyleBottom}/>
                 </Col>
             </Row >
 

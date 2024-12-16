@@ -1,45 +1,15 @@
 
 import { useAppSelector } from "../../../hooks";
 import { RootState } from "../../../store";
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Carousel, Col, Flex, Row, Image, FloatButton, UploadProps, Upload, Table, TableProps, ConfigProvider } from "antd";
+import { Col, Row, ConfigProvider } from "antd";
 
-import { useNavigate, useParams } from "react-router";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getUser } from '../../../redux/utils/auth'
 import axios from "axios";
 import './report.css'
-import { useAppDispatch } from '../../../hooks';
-import { Check } from "../../../redux/interface/Check";
 import 'dayjs'
 import dayjs from "dayjs";
 import { PieChart } from "@opd/g2plot-react";
-
-const styleButton: React.CSSProperties = {
-    backgroundColor: 'rgba(80, 80, 80, 1)',
-    boxShadow: "none",
-    border: 'none',
-    padding: '12px 48px',
-    transition: 'all 0.5s ease',
-    fontSize: '10pt',
-    fontWeight: 'bold',
-    width: '15em',
-    height: '5em',
-}
-
-
-const styleButtonCheck: React.CSSProperties = {
-    backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
-    boxShadow: "none",
-    border: 'none',
-    padding: '12px 48px',
-    transition: 'all 0.5s ease',
-    fontSize: '10pt',
-    fontWeight: 'bold',
-    width: '10em',
-    height: '3em',
-}
-
 
 const mainText: React.CSSProperties = {
     fontSize: 30,
@@ -59,12 +29,6 @@ const innerText: React.CSSProperties = {
     padding: '1em 1em 0em 1em'
 }
 
-
-const colorText: React.CSSProperties = {
-    ...mainText,
-    color: "#AE009A"
-}
-
 const baseColumn: React.CSSProperties = {
     background: 'black',
     margin: '16px 16px',
@@ -82,16 +46,6 @@ const column: React.CSSProperties = {
     alignItems: 'flex-start',
 }
 
-const columnFileIconStyle: React.CSSProperties = {
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignContent: 'stretch',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-}
-
-
-
 const baseRow: React.CSSProperties = {
     background: 'black',
     padding: '16px 16px',
@@ -99,19 +53,10 @@ const baseRow: React.CSSProperties = {
     display: 'flex',
 }
 
-const row: React.CSSProperties = {
-    ...baseRow,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignContent: 'stretch',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-center',
-}
-
 const rowFileIconStyle: React.CSSProperties = {
     ...baseRow,
     width: '100%',
-    height: 400,
+    height: 'calc(100vh - 200px )',
     overflow: 'auto',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -119,13 +64,6 @@ const rowFileIconStyle: React.CSSProperties = {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
 }
-
-
-const columnStyle: React.CSSProperties = {
-    backgroundColor: "rgba(67, 67, 67, 1)",
-}
-
-
 
 export interface Report {
     reportId: number
@@ -236,7 +174,7 @@ export const ReportComponent: React.FC = () => {
                     },
                 }}
             ></ConfigProvider>
-            <Row style={row}>
+            <Row style={rowFileIconStyle}>
                 <p style={mainText}>Проверка файла {data?.fileMetadata.fileName} выполнена!</p>
                 <Col style={column} span={12}>
                     <p style={innerText}>Оригинальность - {data?.reportParams.originalPercentage.toFixed(2)} %</p>

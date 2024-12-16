@@ -22,6 +22,7 @@ import styles from './login.module.scss'
 const styleButton: React.CSSProperties = {
     backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
     borderRadius: '1em',
+    border : 'none',
     padding: '12px 12px',
     transition: 'all 0.5s ease',
     fontSize: '10pt',
@@ -43,15 +44,6 @@ const inputStyle: React.CSSProperties = {
     margin: '0.3em'
 }
 
-const mainText: React.CSSProperties = {
-    fontSize: 40,
-    color: 'white',
-    margin: 0,
-    alignContent: 'center',
-    textAlign: 'center',
-    width: '100%',
-    padding: '2em 1em 0em 1em'
-}
 
 const innerText: React.CSSProperties = {
     fontSize: 15,
@@ -63,10 +55,6 @@ const innerText: React.CSSProperties = {
     padding: '2em 1em 0em 1em'
 }
 
-const colorText: React.CSSProperties = {
-    ...mainText,
-    color: "#AE009A"
-}
 
 export const RegisterForm: React.FC = () => {
     const [form] = Form.useForm();
@@ -200,12 +188,12 @@ export const RegisterForm: React.FC = () => {
                     ]}
                 >
                     <Checkbox style={innerText}>
-                       Согласие на обработку <a href="">персональныъ данных</a>
+                       Согласие на обработку <a href="">персональных данных</a>
                     </Checkbox>
                 </Form.Item>
                 <Form.Item>
                     <Button style = {styleButton}  htmlType="submit">
-                        Register
+                        Зарегестрироваться
                     </Button>
                 </Form.Item>
             </Form>
