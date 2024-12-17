@@ -2,6 +2,6 @@
 <project version="4">
   <component name="DiffGenerationConfig">
     <option name="sourceModelValue" value="paper-service:entityManagerFactory" />
-    <option name="targetDbValue" value="545848fc-9f49-435f-a0f0-0fc287aae586__antiplagiat_papers_schema" />
+    <option name="targetDbValue" value="545848fc-9f49-435f-a0f0-0fc287aae586" />
   </component>
 </project>

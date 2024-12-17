@@ -1,7 +1,7 @@
 
 import { useAppSelector } from "../../../hooks";
 import { RootState } from "../../../store";
-import { Col, Row, ConfigProvider } from "antd";
+import { Col, Row, ConfigProvider, Table } from "antd";
 
 import { useEffect, useState } from "react";
 import { getUser } from '../../../redux/utils/auth'
@@ -180,7 +180,7 @@ export const ReportComponent: React.FC = () => {
                     <p style={innerText}>Оригинальность - {data?.reportParams.originalPercentage.toFixed(2)} %</p>
                     <p style={innerText}>Заимствования - {data?.reportParams.borrowingPercentage.toFixed(2)} %</p>
                     <p style={innerText}>Цитирование - {data?.reportParams.citationPercentage.toFixed(2)} %</p>
-                    <p style={innerText}>Дата создания - { dayjs(data?.fileMetadata.createdDate).format('YYYY-MM-DD HH:mm:ss')}</p>
+                    <p style={innerText}>Дата создания - {dayjs(data?.fileMetadata.createdDate).format('YYYY-MM-DD HH:mm:ss')}</p>
                     <p style={innerText}>Количество страниц - { }</p>
                     <p style={innerText}>Символов в тексте - {data?.fileMetadata.size}</p>
                     <p style={innerText}>Слов в тексте - {data?.fileMetadata.wordCount}</p>
@@ -198,7 +198,6 @@ export const ReportComponent: React.FC = () => {
                         }
                         width={600} />
                 </Col>
-
             </Row >
 
         </div >

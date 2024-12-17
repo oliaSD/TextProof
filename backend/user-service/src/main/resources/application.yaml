@@ -17,15 +17,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/antiplagiat
     username: postgres
     password: postgres
-springdoc:
-  show-actuator: true
-  api-docs:
-    path: v3/api-docs
-  swagger-ui:
-    enabled: true
-    csrf:
-      enabled: true
-    url: v3/api-docs
+#springdoc:
+#  show-actuator: true
+#  api-docs:
+#    path: v3/api-docs
+#  swagger-ui:
+#    enabled: true
+#    csrf:
+#      enabled: true
+#    url: v3/api-docs
 
 jwt:
   token:

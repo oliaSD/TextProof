@@ -23,10 +23,24 @@ import org.springframework.web.cors.CorsConfiguration;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+  private static final String[] AUTH_WHITELIST = {
+      "/swagger-resources",
+      "/swagger-resources/**",
+      "/configuration/ui",
+      "/configuration/security",
+      "/swagger-ui.html",
+      "/webjars/**",
+      "/v3/api-docs/**",
+      "/api/public/**",
+      "/api/public/authenticate",
+      "/actuator/*",
+      "/swagger-ui/**"
+  };
+
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return webSecurity -> webSecurity.ignoring()
-        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**");
+        .requestMatchers(AUTH_WHITELIST);
   }
 
   @Bean

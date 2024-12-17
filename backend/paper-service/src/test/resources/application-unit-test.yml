@@ -1,6 +1,9 @@
 spring:
   application:
     name: user-service
+  flyway:
+    create-schemas: true
+    schemas: papers_schema, public
   jpa:
     hibernate:
       ddl-auto: none
@@ -29,15 +32,15 @@ spring:
       WRITE_BIGDECIMAL_AS_PLAIN: true
     visibility:
       field: any
-#springdoc:
-#  show-actuator: true
-#  api-docs:
-#    path: /v3/api-docs
-#  swagger-ui:
-#    enabled: true
-#    csrf:
-#      enabled: true
-#    url: /v3/api-docs
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: v3/api-docs
+  swagger-ui:
+    enabled: true
+    csrf:
+      enabled: true
+    url: v3/api-docs
 
 
 api:
