@@ -20,7 +20,7 @@ services:
     build: ./backend/paper-service
     restart: always
     ports:
-      - 8081:8081
+      - 8081:8082
     networks:
       - postgres-net
     environment:
