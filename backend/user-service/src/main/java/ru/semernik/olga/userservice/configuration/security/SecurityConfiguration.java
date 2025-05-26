@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,7 +15,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -28,7 +26,6 @@ public class SecurityConfiguration {
 
   private final UserDetailsService userDetailsService;
   private final JwtFilter jwtFilter;
-  private final JwtTokenProvider jwtTokenProvider;
 
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
@@ -41,6 +38,8 @@ public class SecurityConfiguration {
     return http.authorizeHttpRequests(
             authorize -> authorize.requestMatchers("/create").permitAll()
                 .requestMatchers("/auth").permitAll()
+                .requestMatchers("/activate/**").permitAll()
+                .requestMatchers("/admin/create").permitAll()
                 .requestMatchers("/swagger-ui/**").hasRole("ADMIN")
                 .requestMatchers("/swagger-resources/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

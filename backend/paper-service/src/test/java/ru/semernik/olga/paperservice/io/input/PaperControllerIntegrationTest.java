@@ -11,8 +11,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import org.junit.Rule;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -59,11 +61,18 @@ public class PaperControllerIntegrationTest extends BaseSpringBootContext {
   @Autowired
   private PapersRepository papersRepository;
 
-  @BeforeEach
+  private MockedStatic<LocalDateTime> mock;
+
+  @BeforeAll
   public void setUp() {
     LocalDateTime fixedTime = LocalDateTime.now(ZoneOffset.UTC);
-    mockStatic(LocalDateTime.class);
+    mock = mockStatic(LocalDateTime.class);
     when(LocalDateTime.now(ZoneOffset.UTC)).thenReturn(fixedTime);
+  }
+
+  @AfterAll
+  public void tearDown() {
+    mock.close();
   }
 
   @Test

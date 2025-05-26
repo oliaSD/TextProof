@@ -23,3 +23,15 @@ code {
   width: 15em;
   height: 5em;
 }
+
+.ant-table {
+  &.dark-theme {
+    &,
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      background-color: #000;
+      color: #fff;
+      border-color: #444;
+    }
+  }
+}

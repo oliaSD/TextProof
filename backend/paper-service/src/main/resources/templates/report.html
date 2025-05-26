@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Отчет о проверке файла</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 10px 0;
+      color: #1890ff;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background-color: #f7f7f7;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .chart-container {
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .print-button {
+      background: #1890ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 20px auto;
+      display: block;
+      font-size: 16px;
+    }
+
+    .print-button:hover {
+      background: #40a9ff;
+    }
+
+    .pie-chart {
+      width: 350px;
+      height: 350px;
+      margin: 0 auto;
+    }
+
+    .chart-legend {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin: 0 15px 10px;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      margin-right: 8px;
+    }
+
+    .sources-list {
+      margin-top: 30px;
+    }
+
+    .sources-list h2 {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+
+    .sources-list ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sources-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .qr-code-container {
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+
+    .qr-code-container img {
+      max-width: 150px;
+      height: auto;
+    }
+
+    @media print {
+      .print-button {
+        display: none;
+      }
+
+      .card {
+        box-shadow: none;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <button class="print-button" onclick="window.print()">Печать отчета</button>
+
+  <div class="qr-code-container">
+    <img th:src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + ${reportData.reportUrl}" alt="QR-код отчета">
+    <p>Сканируйте QR-код для доступа к этому отчету</p>
+  </div>
+
+  <h1 class="header">Проверка файла  <span th:text="${reportData.fileMetadata.fileName}"></span> выполнена!</h1>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+    <div class="card" style="flex: 1; min-width: 300px;">
+      <table>
+        <tbody>
+        <tr>
+          <td>Оригинальность</td>
+          <td><span th:text="${#numbers.formatDecimal(reportData.reportParams.getOriginalPercentage(), 1,3)}"></span> %</td>
+        </tr>
+        <tr>
+          <td>Заимствования</td>
+          <td><span th:text="${#numbers.formatDecimal(reportData.reportParams.getBorrowingPercentage(),1,3)}"></span> %</td>
+        </tr>
+        <tr>
+          <td>Цитирование</td>
+          <td><span th:text="${#numbers.formatDecimal(reportData.reportParams.getCitationPercentage(),1,3)}"></span> %</td>
+        </tr>
+        <tr>
+          <td>Дата создания</td>
+          <td><span th:text="${reportData.fileMetadata.createdDate}"></span></td>
+        </tr>
+        <tr>
+          <td>Количество страниц</td>
+          <td><span th:text="${reportData.fileMetadata.getPageCount()}"></span></td>
+        </tr>
+        <tr>
+          <td>Символов в тексте</td>
+          <td><span th:text="${reportData.fileMetadata.getWordCount()}"></span></td>
+        </tr>
+        <tr>
+          <td>Слов в тексте</td>
+          <td><span th:text="${reportData.fileMetadata.getWordCount()}"></span></td>
+        </tr>
+        <tr>
+          <td>Число предложений</td>
+          <td><span th:text="${reportData.fileMetadata.getSentenceCount()}"></span></td>
+        </tr>
+        <tr>
+          <td>Автор</td>
+          <td><span th:text="${reportData.user.getUsername()}"></span></td>
+        </tr>
+        <tr>
+          <td>Название документа</td>
+          <td><span th:text="${reportData.fileMetadata.fileName}"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="flex: 1; min-width: 300px;">
+      <div class="pie-chart">
+        <svg width="100%" height="100%" viewBox="0 0 100 100">
+          <!-- Оригинальность -->
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#4e79a7" stroke-width="10"
+                  th:attr="stroke-dasharray='calc(' + ${reportData.reportParams.originalPercentage} + ' * 2.8274) calc(100 * 2.8274)'"
+                  transform="rotate(-90 50 50)" />
+
+          <!-- Заимствования -->
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#f28e2b" stroke-width="10"
+                  th:attr="stroke-dasharray='calc(' + ${reportData.reportParams.borrowingPercentage} + ' * 2.8274) calc(100 * 2.8274)',
+                     stroke-dashoffset='calc(-' + ${reportData.reportParams.originalPercentage} + ' * 2.8274)'"
+                  transform="rotate(-90 50 50)" />
+
+          <!-- Цитирование -->
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#e15759" stroke-width="10"
+                  th:attr="stroke-dasharray='calc(' + ${reportData.reportParams.citationPercentage} + ' * 2.8274) calc(100 * 2.8274)',
+                     stroke-dashoffset='calc(-(' + ${reportData.reportParams.originalPercentage} + ' + ' + ${reportData.reportParams.borrowingPercentage} + ') * 2.8274)'"
+                  transform="rotate(-90 50 50)" />
+
+          <text x="50" y="50" text-anchor="middle" dominant-baseline="middle" font-size="4" fill="#333">
+            Оригинальность: <tspan th:text="${#numbers.formatDecimal(reportData.reportParams.originalPercentage, 1, 2)} + '%'"></tspan>
+          </text>
+        </svg>
+      </div>
+
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #4e79a7;"></div>
+          <span>Оригинальность</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #f28e2b;"></div>
+          <span>Заимствования</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #e15759;"></div>
+          <span>Цитирование</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card sources-list">
+    <h2>Источники заимствований</h2>
+    <ul>
+      <li th:each="source : ${reportData.sources}">
+        <strong th:text="${source.title}"></strong><br>
+        <span>Автор: <span th:text="${source.author}"></span></span><br>
+        <span>URL: <a th:href="${source.url}" th:text="${source.url}" target="_blank"></a></span><br>
+        <span>Процент заимствования: <span th:text="${#numbers.formatDecimal(source.percentage, 1,3)} + '%'"></span></span>
+      </li>
+    </ul>
+  </div>
+</div>
+</body>

@@ -126,7 +126,12 @@
       <artifactId>hypersistence-utils-hibernate-63</artifactId>
       <version>${database.utils.hypersistence.version}</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
+      <version>3.4.5</version>
+    </dependency>
     <!-- javax -->
     <dependency>
       <groupId>javax.validation</groupId>
@@ -166,6 +171,10 @@
     </dependency>
     <!-- jackson -->
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

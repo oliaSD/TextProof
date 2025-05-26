@@ -1,10 +1,7 @@
-
 import { useAppSelector } from "../../../hooks";
 import { RootState } from "../../../store";
-import { PlusOutlined } from '@ant-design/icons';
-
-import { Button, Col, Row, UploadProps, Upload, Table, TableProps, ConfigProvider } from "antd";
-
+import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Button, Col, Row, UploadProps, Upload, Table, TableProps, ConfigProvider, Progress, message } from "antd";
 import { useNavigate } from "react-router";
 import { ReactNode, useEffect, useState } from "react";
 import { getUser } from '../../../redux/utils/auth'
@@ -13,126 +10,56 @@ import './file.css'
 import { useAppDispatch } from '../../../hooks';
 import { add } from '../../../redux/reducers/CkeckReducer';
 import { Check } from "../../../redux/interface/Check";
-import 'dayjs'
 import dayjs from "dayjs";
 import { select } from "../../../redux/reducers/MenuReducer";
 
 const styleButton: React.CSSProperties = {
-    backgroundColor: 'rgba(80, 80, 80, 1)',
-    boxShadow: "none",
+    backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
+    borderRadius: '1em',
     border: 'none',
-    padding: '12px 48px',
+    padding: '12px 24px',
     transition: 'all 0.5s ease',
-    fontSize: '10pt',
+    fontSize: '12pt',
     fontWeight: 'bold',
-    width: '15em',
-    height: '5em',
+    height: 'auto',
+    minHeight: '50px',
+    width: '100%',
+    maxWidth: '300px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
 }
-
 
 const styleButtonCheck: React.CSSProperties = {
     backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
-    boxShadow: "none",
+    borderRadius: '1em',
     border: 'none',
-    padding: '12px 48px',
+    padding: '8px 16px',
     transition: 'all 0.5s ease',
     fontSize: '10pt',
     fontWeight: 'bold',
-    width: '10em',
-    height: '3em',
-}
-
-
-const mainText: React.CSSProperties = {
-    fontSize: 30,
-    color: 'white',
-    margin: 0,
-    alignContent: 'center',
-    textAlign: 'center',
+    height: 'auto',
+    minHeight: '40px',
     width: '100%',
-    padding: '2em 1em 0em 1em'
+    maxWidth: '200px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
 }
 
-const colorText: React.CSSProperties = {
-    ...mainText,
-    color: "#AE009A"
-}
-
-const baseColumn: React.CSSProperties = {
-    background: 'black',
-    margin: '16px 16px',
-    padding: '16px 16px',
-    minWidth: 100,
-    display: 'flex',
-}
-
-const column: React.CSSProperties = {
-    ...baseColumn,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignContent: 'space-between',
-    justifyContent: 'top',
-    alignItems: 'center',
-}
-
-const columnFileIconStyle: React.CSSProperties = {
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignContent: 'stretch',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-}
-
-
-
-const baseRow: React.CSSProperties = {
-    background: 'black',
-    padding: '16px 16px',
-    minWidth: 100,
-    display: 'flex',
-}
-
-const row: React.CSSProperties = {
-    ...baseRow,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignContent: 'stretch',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-center',
-}
-
-const rowFileIconStyle: React.CSSProperties = {
-    ...baseRow,
+const tableContainerStyle: React.CSSProperties = {
     width: '100%',
-    height: 400,
-    overflow: 'auto',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignContent: 'stretch',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '20px',
+    display: 'flex',
+    justifyContent: 'center'
 }
 
-const imageFileIconStyle: React.CSSProperties = {
-    width: 100, height: 100
-}
-
-const selectedFileIconStyle: React.CSSProperties = {
-    ...imageFileIconStyle,
-    backgroundColor: 'silver',
-    borderRadius: '30px'
-}
-
-const imageFileTextStyle: React.CSSProperties = {
-    color: 'white',
-    width: 100
-}
-
-const tableStyle: React.CSSProperties = {
-    width: '90%',
-    backgroundColor: "rgba(67, 67, 67, 1)",
-    margin: '2em'
-
+const uploadProgressStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: '300px',
+    margin: '20px auto',
+    color: '#f01ec6c9'
 }
 
 const splitText = (text: string | undefined) => {
@@ -151,17 +78,54 @@ interface FileMetadata {
     createdDate: Date
 }
 
+interface FileProps {
+  uriUploadFileAction : string;
+  uriGetFilesAction : string;
+  uriPostFilesCheckAction : string;
+  uriNavigate : string,
+}
 
-export const FileComponent: React.FC = () => {
+export const FileComponent: React.FC<FileProps> = ({uriUploadFileAction, uriGetFilesAction, uriPostFilesCheckAction, uriNavigate}) => {
 
-    const checkState = useAppSelector((state: RootState) => state.check)
-    const menuState = useAppSelector((state: RootState) => state.menu)
-    const dispatch = useAppDispatch()
+    const [files, setFiles] = useState<FileMetadata[]>([]);
+    const [selectedFile, setSelectedFile] = useState<FileMetadata | undefined>();
+    const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [messageApi, contextHolder] = message.useMessage();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
-    const [files, setFiles] = useState<FileMetadata[]>([])
-    const [selectedFile, setSelectedFile] = useState<FileMetadata | undefined>()
+    useEffect(() => {
+        document.title = "Мои файлы"
+        getFiles()
+    }, [])
 
-    const columns: TableProps<FileMetadata | undefined>['columns'] = [
+    const props: UploadProps = {
+        name: 'paper',
+        action: uriUploadFileAction,
+        headers: {
+            authorization: 'authorization-text',
+        },
+        showUploadList: false,
+        onChange(info) {
+            if (info.file.status === 'uploading') {
+                setUploading(true);
+            }
+            if (info.file.status === 'done') {
+                setUploading(false);
+                setUploadProgress(0);
+                const file = info.file.response.fileMetadata as FileMetadata;
+                setFiles((prev) => [...prev, file]);
+                messageApi.success(`${info.file.name} успешно загружен`);
+            } else if (info.file.status === 'error') {
+                setUploading(false);
+                setUploadProgress(0);
+                messageApi.error(`${info.file.name} не удалось загрузить`);
+            }
+        },
+    };
+
+    const columns: TableProps<FileMetadata>['columns'] = [
         {
             title: 'Название',
             dataIndex: 'fileName',
@@ -191,7 +155,7 @@ export const FileComponent: React.FC = () => {
             title: 'Размер',
             key: 'size',
             dataIndex: 'size',
-            render : (text) => text === undefined ? <></> : <p>{(text/1024).toFixed(2)} Kb</p>
+            render: (text) => text === undefined ? <></> : <p>{(text / 1024).toFixed(2)} Kb</p>
         },
         {
             title: 'Действие',
@@ -201,15 +165,11 @@ export const FileComponent: React.FC = () => {
     ];
 
 
-    const navigate = useNavigate()
-    function handleClick() {
-        navigate('/check')
-    }
-
     const getFiles = () => {
+        console.log(uriGetFilesAction)
         axios({
             method: 'get',
-            url: `http://localhost:8081/papers/get/${getUser().username}`,
+            url: uriGetFilesAction,
             withCredentials: false,
         }).then(function (response) {
             const res = response.data.papers as FileMetadata[]
@@ -229,12 +189,12 @@ export const FileComponent: React.FC = () => {
         }
         axios({
             method: 'post',
-            url: `http://localhost:8081/papers/check/${getUser().username}/${file.paperId}`,
+            url: `${uriPostFilesCheckAction}${file.paperId}`,
             withCredentials: false,
         }).then(function (response) {
             const res = response.status
             const newCheck: Check = {
-                status : 'non_check',
+                status: 'non_check',
                 paperId: file.paperId,
                 reportId: response.data.reportId,
                 fileName: file.fileName,
@@ -242,7 +202,7 @@ export const FileComponent: React.FC = () => {
             }
             dispatch(add(newCheck))
             dispatch(select('check'))
-            navigate('/account/check')
+            navigate(uriNavigate)
         }).catch(function (error) {
             if (error.response) {
                 console.log("Ошибка неверный логин или пароль")
@@ -261,81 +221,105 @@ export const FileComponent: React.FC = () => {
         }
     }
 
-    const renderFile = (): ReactNode => {
-        console.log(files)
-        return files.map((file) => {
-            return <>
-                <Col span={4} style={columnFileIconStyle}>
-                    <img style={file === selectedFile ? selectedFileIconStyle : imageFileIconStyle} src="/image/fileImage.png" onClick={() => selectFile(file)} />
-                    <p style={imageFileTextStyle}>{file.fileName}</p>
-                </Col>
-            </>
-        })
-    }
-
-    const props: UploadProps = {
-        name: 'paper',
-        action: `http://localhost:8081/papers/upload/${getUser().username}`,
-        headers: {
-            authorization: 'authorization-text',
-        },
-        onChange(info) {
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (info.file.status === 'done') {
-                const file = info.file.response.fileMetadata as FileMetadata
-                setFiles((pref) => [...pref, file])
-                //message.success(`${info.file.name} file uploaded successfully`);
-            } else if (info.file.status === 'error') {
-                //message.error(`${info.file.name} file upload failed.`);
-            }
-        },
-    };
-
-    useEffect(() => {
-        document.title = "Мои файлы"
-        getFiles()
-    }, [])
+   
 
     return (
-        <div className="back-ground">
-            <ConfigProvider
-                theme={{
-                    components: {
-                        Table: {
-                            bodySortBg: "rgba(67, 67, 67, 1)"
-                        }
+        <ConfigProvider
+            theme={{
+                components: {
+                    Table: {
+                        headerBg: 'rgba(0, 0, 0, 0.7)',
+                        headerColor: 'white',
+                        headerSplitColor: '#333',
+                        bodySortBg: 'rgba(0, 0, 0, 0.5)',
+                        rowHoverBg: 'rgba(240, 30, 198, 0.1)',
+                        colorBgContainer: 'rgba(0, 0, 0, 0.3)',
+                        borderColor: '#333',
+                        colorText: 'white'
                     },
-                }}
-            ></ConfigProvider>
-            <Row style={rowFileIconStyle}>
-                {
-                    renderFile()
-                }
-            </Row >
-            <Row style={row}>
-                <Col style={column} >
-                    <Upload {...props}>
-                        <Button icon={<PlusOutlined />} style={styleButton}>Добавить файл</Button>
-                    </Upload>
-                </Col>
-            </Row>
+                },
+            }}
+        >
+            {contextHolder}
+            <div style={{
+                background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+                padding: '20px',
+                minHeight: 'calc(100vh - 140px)',
+                color: 'white'
+            }}>
+                <Row gutter={[16, 16]} style={{ marginBottom: '20px' }}>
+                    {files.map((file) => (
+                        <Col key={file.paperId} xs={12} sm={8} md={6} lg={4} xl={3}>
+                            <div 
+                                style={{ 
+                                    cursor: 'pointer',
+                                    padding: '10px',
+                                    borderRadius: '10px',
+                                    backgroundColor: file === selectedFile ? 'rgba(240, 30, 198, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                                    transition: 'all 0.3s ease',
+                                    textAlign: 'center'
+                                }}
+                                onClick={() => selectFile(file)}
+                            >
+                                <img 
+                                    src="/image/fileImage.png" 
+                                    style={{ 
+                                        width: '80%', 
+                                        height: 'auto',
+                                        filter: file === selectedFile ? 'brightness(1.2)' : 'none'
+                                    }} 
+                                />
+                                <p style={{ 
+                                    color: 'white', 
+                                    marginTop: '10px',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis'
+                                }}>
+                                    {file.fileName}
+                                </p>
+                            </div>
+                        </Col>
+                    ))}
+                </Row>
 
-            <Row style={row}>
-                <Table<FileMetadata | undefined>
-                    style={tableStyle}
-                    columns={columns}
-                    dataSource={[selectedFile]}
-                    pagination={false}
-                    className="column-style"
-                />
-                <Col style={column}>
+                <Row justify="center" style={{ marginBottom: '30px' }}>
+                    <Col>
+                        <Upload {...props}>
+                            <Button 
+                                icon={uploading ? <LoadingOutlined /> : <PlusOutlined />} 
+                                style={styleButton}
+                                disabled={uploading}
+                            >
+                                {uploading ? 'Загрузка...' : 'Добавить файл'}
+                            </Button>
+                        </Upload>
+                        {uploading && (
+                            <Progress 
+                                percent={uploadProgress} 
+                                strokeColor="#f01ec6c9" 
+                                style={uploadProgressStyle}
+                                showInfo={false}
+                            />
+                        )}
+                    </Col>
+                </Row>
 
-                </Col>
-            </Row >
-
-        </div >
+                {selectedFile && (
+                    <div style={tableContainerStyle}>
+                        <Table<FileMetadata>
+                            columns={columns}
+                            dataSource={[selectedFile]}
+                            pagination={false}
+                            style={{ width: '100%' }}
+                            bordered
+                        />
+                    </div>
+                )}
+            </div>
+        </ConfigProvider>
     );
+};
 
-}
+export default FileComponent;
+

@@ -24,13 +24,14 @@ import ru.semernik.olga.paperservice.dao.entity.PapersAttributeEntity;
 import ru.semernik.olga.paperservice.dao.entity.PapersEntity;
 import ru.semernik.olga.paperservice.dao.entity.PapersTextEntity;
 import ru.semernik.olga.paperservice.exception.CreateFileException;
+import ru.semernik.olga.paperservice.service.pdf.TextTokenExtractor;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class PapersParserService {
 
-  public PapersEntity parse(MultipartFile paper, String username) {
+  public PapersEntity parse(MultipartFile paper, String username, boolean isPublic) {
 
     try (InputStream stream = paper.getInputStream()) {
 
@@ -51,9 +52,11 @@ public class PapersParserService {
           ).toList();
 
       var offset = 0L;
+      var symbols = 0L;
       for (var elem : paragraphs) {
         elem.setTextOffset(offset);
-        offset += elem.getSize();
+        offset += TextTokenExtractor.countWord(elem.getText());
+        symbols += elem.getText().length();
       }
       PapersAttributeEntity attributeEntity = PapersAttributeEntity.builder()
           .authors(username)
@@ -63,12 +66,13 @@ public class PapersParserService {
           .isSource(false)
           .papers(papers)
           .wordCount(offset)
-          .size(paper.getSize())
+          .size(symbols)
           .hash(String.valueOf(paragraphs.hashCode()))
           .created(LocalDateTime.now(ZoneOffset.UTC))
           .build();
       papers.setPapersTexts(paragraphs);
       papers.setType("document");
+      papers.setPublic(isPublic);
       papers.setPapersAttribute(attributeEntity);
       papers.setUsername(username);
       papers.setType(papers.getType());
@@ -82,11 +86,15 @@ public class PapersParserService {
     if (text == null || text.isEmpty()) {
       return Stream.of();
     }
-    Pattern paragraphPattern = Pattern.compile("(\\r?\\n\\s*){2,}");
+    Pattern paragraphPattern = Pattern.compile(
+        "((?<=\\s)\\r?\\n(?=\\s))|((\\r?\\n\\s*){2,})|[\\u2028\\u2029]");
 
     return Arrays.stream(paragraphPattern.split(text))
         .map(String::trim)
         .filter(paragraph -> !paragraph.isEmpty())
-        .map(paragraph -> paragraph.replaceAll("\n", " "));
+        .map(paragraph -> paragraph.replaceAll("\n", " ")
+            .replaceAll("\r", " ")
+            .replaceAll("  ", " ")
+        );
   }
 }

@@ -62,4 +62,4 @@ api:
       max-connections: 30
       timeout: 6000
 server:
-  port: 8082
+  port: 8081

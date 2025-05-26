@@ -1,0 +1,21 @@
+
+.black-table {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.black-table .ant-table-thead > tr > th {
+  background-color: #222 !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+
+.black-table .ant-table-tbody > tr > td {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+
+.black-table .ant-table-tbody > tr:hover > td {
+  background-color: #111 !important;
+}

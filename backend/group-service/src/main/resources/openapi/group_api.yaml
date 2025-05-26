@@ -1,0 +1,193 @@
+openapi: 3.0.0
+info:
+  title: Group Service API
+  description: API для управления группами пользователей
+  version: 1.0.0
+
+servers:
+  - url: http://api.example.com/v1
+    description: Production server
+
+paths:
+  /groups:
+    post:
+      tags:
+        - Groups
+      summary: Создать новую группу
+      description: Создает новую группу с указанным именем для пользователя
+      operationId: create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+      responses:
+        '200':
+          description: Группа успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Неверные входные данные
+        '500':
+          description: Внутренняя ошибка сервера
+
+  /groups/{username}:
+    get:
+      tags:
+        - Groups
+      summary: Получить группы пользователя
+      description: Возвращает список групп, принадлежащих указанному пользователю
+      operationId: getUsersGroups
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Имя пользователя
+      responses:
+        '200':
+          description: Список групп пользователя
+          content:
+            application/json:
+              schema:
+                type : array
+                items:
+                  $ref : './model/user_group_response.json'
+
+        '404':
+          description: Пользователь не найден
+        '500':
+          description: Внутренняя ошибка сервера
+
+  /groups/{groupId}/{username}:
+    post:
+      tags:
+        - Groups
+      summary: Добавить пользователя в группу
+      description: Добавляет пользователя в указанную группу
+      operationId: addUser
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Идентификатор группы
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Имя пользователя
+      responses:
+        '200':
+          description: Пользователь успешно добавлен в группу
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Неверные входные данные
+        '404':
+          description: Группа или пользователь не найдены
+        '500':
+          description: Внутренняя ошибка сервера
+
+  /groups/notify/{groupId}/{email}:
+    post:
+      tags:
+        - Groups
+      summary: Отправить письмо на почту для пользователя в группу
+      description: Добавляет пользователя в указанную группу
+      operationId: notifyUser
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Идентификатор группы
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Идентификатор группы
+      responses:
+        '200':
+          description: Пользователь успешно добавлен в группу
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Неверные входные данные
+        '404':
+          description: Группа или пользователь не найдены
+        '500':
+          description: Внутренняя ошибка сервера
+
+  /user:
+    post:
+      tags:
+        - User
+      summary: Добавить пользователя в группу
+      description: Добавляет пользователя в указанную группу
+      operationId: getUser
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Идентификатор группы
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './model/find_user_response.json'
+      responses:
+        '200':
+          description: Пользователь успешно добавлен в группу
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Неверные входные данные
+        '404':
+          description: Группа или пользователь не найдены
+        '500':
+          description: Внутренняя ошибка сервера
+
+components:
+  schemas:
+    CreateGroupRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Имя пользователя, создающего группу
+          example: "user123"
+        groupName:
+          type: string
+          description: Название создаваемой группы
+          example: "Моя группа"
+      required:
+        - username
+        - groupName
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Операция выполнена успешно"

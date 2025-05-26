@@ -1,110 +1,188 @@
+import { useState, useRef } from 'react';
+import { 
+  Button, 
+  Col, 
+  Row, 
+  FloatButton,
+  Affix,
+  Typography 
+} from 'antd';
+import { 
+  HomeOutlined, 
+  SearchOutlined, 
+  BookOutlined, 
+  BarChartOutlined,
+  UpOutlined
+} from '@ant-design/icons';
+import './home.css';
+import { useNavigate } from 'react-router-dom';
 
-import { useAppSelector } from "../../hooks";
-import { RootState } from "../../store";
+const { Title, Paragraph } = Typography;
 
-import { Button, Carousel, Col, Flex, Row, Image, FloatButton } from "antd";
+export const HomeComponent = () => {
+  const sections = {
+    home: useRef<HTMLDivElement>(null),
+    check: useRef<HTMLDivElement>(null),
+    grammar: useRef<HTMLDivElement>(null),
+    analytics: useRef<HTMLDivElement>(null),
+  };
 
-import './home.css'
-import { useNavigate } from "react-router";
-import { useEffect } from "react";
+  const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-const mainText: React.CSSProperties = {
-    fontSize: 40,
-    color: 'white',
-    margin: 0,
-    alignContent: 'center',
-    textAlign: 'center',
-    width: '100%',
-    padding: '2em 1em 0em 1em'
-}
+  const navigate = useNavigate();
 
-const column: React.CSSProperties = {
-    background: 'black',
-    margin: '16px 16px',
-    padding: '16px 16px',
-    minWidth: 100,
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignContent: 'space-between',
-    justifyContent: 'top',
-    alignItems: 'center',
-}
-const row: React.CSSProperties = {
-    background: 'black',
-    margin: '16px 16px',
-    padding: '16px 16px',
-    minWidth: 100,
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignContent: 'stretch',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-start',
-}
+  return (
+    <div className="home-container">
+      {/* Секция Главная */}
+      <div className="section home-section">
+        <Row gutter={[24, 24]} justify="center" align="middle">
+          <Col xs={24} md={12} className="content-col">
+            <Title level={2} className="section-title">
+              TextProof - защита оригинальности ваших научных исследований
+            </Title>
+            <Paragraph className="section-text">
+              Это инновационная онлайн-платформа для проверки научных статей на плагиат. 
+              Мы предлагаем комплексный анализ текстов, предоставляем подробные отчеты 
+              и рекомендации для улучшения оригинальности работы.
+            </Paragraph>
+            <Button 
+              onClick={() => navigate('/check')}
+              className="action-button"
+              size="large"
+            >
+              Начать проверку
+            </Button>
+            <Title level={3} className="section-subtitle">
+              Честность в науке - наша миссия!
+            </Title>
+          </Col>
+          <Col xs={24} md={12} className="image-col">
+            <img 
+              src="/image/homeImage.png" 
+              alt="Главное изображение"
+              className="responsive-image"
+            />
+          </Col>
+        </Row>
+      </div>
 
-const textInner: React.CSSProperties = {
-    fontSize: 20,
-    color: 'white',
-    alignContent: 'center',
-    textAlign: 'justify',
-    marginBottom: '1em'
-}
+      {/* Секция Проверка */}
+      <section id="check"></section>
+      <div ref={sections.check} className="section check-section">
+        <Title level={2} className="section-title">
+          На нашем сайте вы можете проверить текст на плагиат
+        </Title>
+        <Title level={3} className="accent-title">
+          НАЙДИТЕ ПРОВЕРКУ, КОТОРАЯ ПОДХОДИТ ИМЕННО ВАМ
+        </Title>
+        
+        <Row gutter={[24, 24]} className="features-row">
+          <Col xs={24} md={8} className="feature-card">
+            <Title level={4} className="feature-title">
+              Проверка по всем источникам
+            </Title>
+            <Paragraph className="feature-text">
+              Мы анализируем ваш текст по всему интернету и нашей внутренней базе данных.
+            </Paragraph>
+          </Col>
+          
+          <Col xs={24} md={8} className="feature-card middle-card">
+            <Title level={4} className="feature-title">
+              Проверка по выбранным источникам
+            </Title>
+            <Paragraph className="feature-text">
+              У вас есть возможность выбрать конкретные источники для проверки.
+            </Paragraph>
+          </Col>
+          
+          <Col xs={24} md={8} className="feature-card">
+            <Title level={4} className="feature-title">
+              Проверка по внутренней базе
+            </Title>
+            <Paragraph className="feature-text">
+              Сравнивайте только с материалами, уже хранящимися в нашей базе.
+            </Paragraph>
+          </Col>
+        </Row>
+        
+        <Button 
+          onClick={() => navigate('/check')}
+          className="action-button"
+          size="large"
+        >
+          Проверить текст
+        </Button>
+      </div>
 
-
-const styleButton: React.CSSProperties = {
-    backgroundImage: 'linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%))',
-    borderRadius: '1em',
-    border: 'none',
-    padding: '12px 48px',
-    transition: 'all 0.5s ease',
-    fontSize: '10pt',
-    fontWeight: 'bold',
-    width: '15em',
-    height: '5em',
-    marginTop: '3.2em',
-    marginBottom: '2em'
-}
-
-const imageStyle: React.CSSProperties = {
-    width: 600, height: 600
-}
-
-
-export const HomeComponent: React.FC = () => {
-
-    const user = useAppSelector((state: RootState) => state.user)
-
-    const navigate = useNavigate()
-    function handleClick() {
-        navigate('/check')
-    }
-
-    useEffect(() => {
-        document.title = "Главная страница"
-    }, [])
-
-    return (
-        <>
-            <Row style={row}>
-                <p style={mainText}>TextProof - защита оригинальности ваших научных исследований</p>
-                <Col xs={2} sm={4} md={10} lg={16} xl={8} className="column">
-                    <p style={textInner} >
-                        Это инновационная онлайн-платформа для проверки научных статей на плагиат. Мы предлагаем комплексный анализ текстов, предоставляем подробные отчеты и рекомендации для улучшения оригинальности работы. Наша система быстро и точно выявляет заимствования, помогая вам гарантировать уникальность ваших исследований и публикаций. С TextProof вы можете быть уверены в качестве и достоверности своих научных трудов!
-                    </p>
-                    <Button onClick={handleClick} style={styleButton}>Проверить</Button>
-                    <p style={mainText} >
-                        Честность в науке - наша миссия!
-                    </p>
-                </Col>
-                <Col xs={2} sm={4} md={10} lg={16} xl={8} className="column">
-                    <>
-                        <img style={imageStyle} src="/image/homeImage.png" />
-                    </>
-                </Col>
+      {/* Секция Грамматика */}
+      <section id="grammar"></section>
+      <div ref={sections.grammar} className="section grammar-section">
+        <Title level={3} className="accent-title">
+          БОЛЬШЕ, ЧЕМ СРЕДСТВО ПРОВЕРКИ ГРАММАТИКИ
+        </Title>
+        
+        <Row gutter={[24, 24]} align="middle">
+          <Col xs={24} md={8} className="image-col">
+            <img 
+              src="/image/grammarImage.png" 
+              alt="Грамматика"
+              className="responsive-image"
+            />
+          </Col>
+          
+          <Col xs={24} md={16}>
+            <Row gutter={[24, 24]}>
+              <Col xs={24} md={12} className="feature-card">
+                <Title level={4} className="feature-title">
+                  Продвинутая грамматика
+                </Title>
+                <Paragraph className="feature-text">
+                  Исправляйте сложные грамматические ошибки.
+                </Paragraph>
+              </Col>
+              
+              <Col xs={24} md={12} className="feature-card">
+                <Title level={4} className="feature-title">
+                  Продвинутая орфография
+                </Title>
+                <Paragraph className="feature-text">
+                  Улучшите текст с помощью контекстной проверки.
+                </Paragraph>
+              </Col>
+              
+              <Col xs={24} md={12} className="feature-card">
+                <Title level={4} className="feature-title">
+                  Структура предложения
+                </Title>
+                <Paragraph className="feature-text">
+                  Правильно структурируйте предложения.
+                </Paragraph>
+              </Col>
+              
+              <Col xs={24} className="action-col">
+                <Button 
+                  onClick={() => navigate('/check')}
+                  className="action-button"
+                  size="large"
+                >
+                  Проверить грамматику
+                </Button>
+              </Col>
             </Row>
-        </>
+          </Col>
+        </Row>
+      </div>
 
-    );
-
-}
+      {/* Кнопка возврата наверх */}
+      <section id="analytics"></section>
+      <section id="reports"></section>
+      <FloatButton 
+        icon={<UpOutlined />} 
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="back-to-top"
+      />
+    </div>
+  );
+};

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.semernik.olga.userservice.configuration.security.JwtTokenProvider;
+import ru.semernik.olga.userservice.dao.entity.UserActiveStatus;
 import ru.semernik.olga.userservice.dao.entity.UserEntity;
 import ru.semernik.olga.userservice.exception.AuthException;
 import ru.semernik.olga.userservice.service.common.UserService;
@@ -26,6 +27,9 @@ public class AuthService {
     var pas = passwordEncoder.encode(authRequest.getPassword());
     if (passwordEncoder.matches(pas, user.getPassword())) {
       throw new AuthException(HttpStatus.FORBIDDEN, "Неверный логин или пароль");
+    }
+    if (user.getAccountStatus() == UserActiveStatus.NOACTIVE) {
+      throw new AuthException(HttpStatus.UNAUTHORIZED, "Пользователь не авторизирован");
     }
     return new AuthResponse(jwtTokenProvider.generateToken(user));
   }

@@ -1,110 +1,60 @@
-
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { RootState } from "../../../store";
-
-import { Button, Flex, Row, ConfigProvider, Progress, ProgressProps } from "antd";
-import { set} from '../../../redux/reducers/CkeckReducer';
+import { Button, Table, ConfigProvider, Progress, ProgressProps } from "antd";
+import { set } from '../../../redux/reducers/CkeckReducer';
 import { select } from '../../../redux/reducers/ReportReducer';
-import { select as selectMenu } from '../../../redux/reducers/MenuReducer';
 import { useNavigate } from "react-router";
-import { useEffect,  useState } from "react";
-import { getUser } from '../../../redux/utils/auth'
+import { useEffect, useState } from "react";
+import { getUser } from '../../../redux/utils/auth';
 import axios from "axios";
-import './check.css'
+import './check.css';
 import { Check } from "../../../redux/interface/Check";
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { ReportComponent } from "../report/Report";
 
+const twoColors: ProgressProps['strokeColor'] = {
+    '0%': '#f01ec6c9',
+    '100%': 'hwb(312 58% 12%)',
+};
 
-
-const styleButton: React.CSSProperties = {
-    backgroundColor: 'rgba(80, 80, 80, 1)',
-    boxShadow: "none",
-    border: 'none',
-    padding: '12px 48px',
-    transition: 'all 0.5s ease',
-    fontSize: '10pt',
-    fontWeight: 'bold',
-    width: '15em',
-    height: '5em',
+interface CheckProps {
+  uriGetCheksAction : string;
+  uriGetStatusAction : string;
+  uriUpdateFilesAction : string;
+  uriNavigate : string,
 }
 
+export const CheckAccountComponent: React.FC<CheckProps> = ({uriGetCheksAction, uriGetStatusAction, uriUpdateFilesAction, uriNavigate}) => {
+    const checkState = useAppSelector((state: RootState) => state.check);
+    const dispatch = useAppDispatch();
+    const [checks, setChecks] = useState<Check[]>(checkState.checks);
+    const [showReport, setShowReport] = useState(false);
+    const [selectedReportId, setSelectedReportId] = useState<number | null>(null);
+    const navigate = useNavigate();
 
-const mainText: React.CSSProperties = {
-    fontSize: 30,
-    color: 'white',
-    margin: 0,
-    alignContent: 'center',
-    textAlign: 'center',
-    width: '100%',
-    padding: '2em 1em 0em 1em'
-}
-
-const baseColumn: React.CSSProperties = {
-    background: 'black',
-    margin: '16px 16px',
-    padding: '16px 16px',
-    minWidth: 100,
-    display: 'flex',
-}
-
-const column: React.CSSProperties = {
-    ...baseColumn,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignContent: 'space-between',
-    justifyContent: 'top',
-    alignItems: 'center',
-}
-
-
-const baseRow: React.CSSProperties = {
-    background: 'black',
-    padding: '16px 16px',
-    minWidth: 100,
-    display: 'flex',
-}
-
-const rowFileIconStyle: React.CSSProperties = {
-    ...baseRow,
-    width: '100%',
-    height: 'calc(100vh - 200px )',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignContent: 'stretch',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-center',
-    overflow: 'auto',
-}
-
-export const CheckAccountComponent: React.FC = () => {
-
-    const checkState = useAppSelector((state: RootState) => state.check)
-    const dispatch = useAppDispatch()
-    const [checks, setChecks] = useState<Check[]>(checkState.checks)
-
-    const navigate = useNavigate()
 
     const getChecks = () => {
         axios({
             method: 'get',
-            url: `http://localhost:8081/papers/checks/${getUser().username}`,
+            url: uriGetCheksAction,
             withCredentials: false,
         }).then(function (response) {
             let res = response.data as Check[]
-            res.forEach(e => (e.status === 'fihish_check' ? e.percentage = 100 : e.percentage = 0))
+            res.forEach(e => (e.status === 'finish_check' ? e.percentage = 100 : e.percentage = 0))
             dispatch(set(res))
         }).catch(function (error) {
-                if (error.response) {
-                    console.log("Ошибка неверный логин или пароль")
-                } else if (error.request) {
-                    console.log('Сервер недоступен')
-                }
-            })
+            if (error.response) {
+                console.log("Ошибка неверный логин или пароль")
+            } else if (error.request) {
+                console.log('Сервер недоступен')
+            }
+        })
     }
 
     const status = (check: Check) => {
         axios({
             method: 'post',
-            url: `http://localhost:8081/papers/status/${getUser().username}/${check.paperId}`,
+            url: uriGetStatusAction+check.paperId,
             withCredentials: false,
         }).then(function (response) {
             const res = response.data.status as string
@@ -121,7 +71,7 @@ export const CheckAccountComponent: React.FC = () => {
     async function updateCheck() {
         axios({
             method: 'get',
-            url: `http://localhost:8081/papers/checks/${getUser().username}`,
+            url: uriUpdateFilesAction,
             withCredentials: false,
         }).then(function (response) {
             let res = response.data as Check[]
@@ -162,54 +112,118 @@ export const CheckAccountComponent: React.FC = () => {
         return () => clearInterval(intervalId);
     }, [])
 
-    const twoColors: ProgressProps['strokeColor'] = {
-        '0%': '#f01ec6c9',
-        '100%': 'hwb(312 58% 12%)',
+    const handleShowReport = (check: Check) => {
+        setSelectedReportId(check.reportId);
+        setShowReport(true);
+        dispatch(select(check.reportId));
     };
 
-    const showReport = (check: Check) => {
-        dispatch(selectMenu('report'))
-        dispatch(select(check.reportId))
-        navigate(`/account/report`)
-    }
+    const handleBackToChecks = () => {
+        setShowReport(false);
+        setSelectedReportId(null);
+    };
 
+    const columns = [
+        {
+            title: 'Название файла',
+            dataIndex: 'fileName',
+            key: 'fileName',
+            width: '40%',
+            render: (text: string) => (
+                <span style={{ color: 'white' }}>{text}</span>
+            )
+        },
+        {
+            title: 'Прогресс проверки',
+            key: 'progress',
+            width: '30%',
+            render: (_: any, record: Check) => (
+                <Progress
+                    percent={record.percentage}
+                    strokeColor={twoColors}
+                    trailColor="white"
+                    showInfo={false}
+                />
+            )
+        },
+        {
+            title: 'Процент проверки',
+            key: 'percentage',
+            width: '15%',
+            render: (_: any, record: Check) => (
+                <span style={{ color: 'white' }}>{record.percentage}%</span>
+            )
+        },
+        {
+            title: 'Действия',
+            key: 'action',
+            width: '15%',
+            render: (_: any, record: Check) => (
+                record.percentage === 100 ? (
+                    <Button
+                        type="primary"
+                        onClick={() => handleShowReport(record)}
+                        style={{ background: '#D189C9', borderColor: '#D189C9' }}
+                    >
+                        Посмотреть отчет
+                    </Button>
+                ) : null
+            )
+        }
+    ];
     return (
-        <>
-            <ConfigProvider
-                theme={{
-                    components: {
-                        Progress: {
-
-                        },
+        <ConfigProvider
+            theme={{
+                components: {
+                    Table: {
+                        headerBg: 'black',
+                        headerColor: 'white',
+                        headerSplitColor: '#333',
+                        bodySortBg: 'black',
+                        rowHoverBg: '#1a1a1a',
+                        colorBgContainer: 'black',
+                        borderColor: '#333',
+                        colorText: 'white'
                     },
-                }}
-            >
-            </ConfigProvider>
-            <Row style={rowFileIconStyle}>
-                <Flex style={column} vertical gap="middle">
-                    {
-                        checks === undefined ? <></> :
-                            checks.map(check => {
-                                return <>
-                                    <p style={mainText}> {check.fileName}</p>
-                                    <Progress
-                                        percent={check.percentage}
-                                        type='line'
-                                        percentPosition={{ align: 'center', type: 'inner' }}
-                                        strokeColor={twoColors}
-                                        trailColor='white'
-                                        size={["60em", 20]} />
-                                    {
-                                        check.percentage === 100 ? <Button style={styleButton} onClick={() => showReport(check)}>Посмотреть отчет</Button> : <></>
-                                    }
-
-                                </>
-                            })
-                    }
-                </Flex>
-            </Row>
-        </>
-
+                },
+            }}
+        >
+            {showReport ? (
+                <div className="back-ground">
+                    <Button
+                        type="text"
+                        icon={<ArrowLeftOutlined />}
+                        onClick={handleBackToChecks}
+                        style={{
+                            position: 'relative',
+                            top: '60px',
+                            left: '20px',
+                            zIndex: 1000,
+                            color: 'white',
+                            fontSize: '16px'
+                        }}
+                    >
+                        Назад к проверкам
+                    </Button>
+                    <ReportComponent />
+                </div>
+            ) : (
+                <div style={{
+                    background: 'black',
+                    padding: '20px',
+                    minHeight: 'calc(100vh - 140px)'
+                }}>
+                    <Table
+                        columns={columns}
+                        dataSource={checks}
+                        rowKey="paperId"
+                        pagination={false}
+                        style={{ background: 'black' }}
+                        bordered
+                    />
+                </div>
+            )}
+        </ConfigProvider>
     );
 
 }

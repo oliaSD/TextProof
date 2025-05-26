@@ -22,7 +22,7 @@ export interface UserState {
     jwtToken : string,
 }
 
-export type role = 'role_user' | 'role_admin' | 'role_teacher' | 'role_department' | undefined
+export type role = 'ROLE_USER' | 'ROLE_ADMIN' | undefined
 
 export const headers = {
     "Content-Type": "application/json",

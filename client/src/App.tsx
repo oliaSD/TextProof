@@ -18,6 +18,10 @@ import { GrammarComponent } from './pages/home/Grammar';
 import { AnalyticComponent } from './pages/home/Analytics';
 import AccountComponent from './pages/account/Account';
 import { ReportComponent } from './pages/account/report/Report';
+import AdminPage from './pages/account/admin/AdminPage';
+import GroupsPage from './pages/account/group/Group';
+import { GroupDetailPage } from './pages/account/group/Groupdetail';
+import GroupAccountComponent from './pages/account/group/GroupAccount';
 
 
 function App() {
@@ -43,10 +47,12 @@ function App() {
           <Route path='check' element={<CheckComponent />} />
           <Route path='grammar' element={<GrammarComponent />} />
           <Route path='analytics' element={<AnalyticComponent />} />
-          <Route path='account' element = {<AccountComponent />}/>
-          <Route path='account/*' element = {<AccountComponent />}/>
-          {/* <Route path='account/report/:reportId' element = {<ReportComponent />}/> */}
-          {/* <Route path='account/*' element = {<AccountComponent />}/> */}
+          <Route path='admin' element={<AdminPage />} />
+          <Route path='account' element={<AccountComponent />} />
+          <Route path='group/:id' element={<GroupAccountComponent />} />
+          <Route path='group/file/:id' element={<GroupAccountComponent />} />
+          <Route path='group/check/:id' element={<GroupAccountComponent />} />
+          <Route path='account/*' element={<AccountComponent />} />
           <Route path="*" element={
             <HomeComponent />
           } />

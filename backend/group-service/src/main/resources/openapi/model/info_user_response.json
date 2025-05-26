@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Ответ на получение информации о пользователе в системе",
+  "properties": {
+    "username": {
+      "type": "string",
+      "description": "Имя пользователя для входа",
+      "example": "olga"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Электронная почта пользователя",
+      "example": "semernik.olga@bsuir.by"
+    },
+    "userRole": {
+      "type": "string",
+      "description": "Тип пользователя",
+      "enum": [
+        "USER",
+        "ADMIN"
+      ],
+      "default": "USER"
+    },
+    "status": {
+      "type": "string",
+      "description": "Статус пользователя",
+      "enum": [
+        "ACTIVE",
+        "NOACTIVE"
+      ],
+      "default": "NOACTIVE"
+    }
+  },
+  "required": [
+    "username",
+    "userRole",
+    "email",
+    "status"
+  ]
+}

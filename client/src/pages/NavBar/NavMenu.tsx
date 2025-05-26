@@ -1,96 +1,207 @@
-
-
-import { Button, Flex, Menu, MenuProps } from 'antd';
 import React, { useState } from 'react';
-
-
-import MenuItem from 'antd/es/menu/MenuItem';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logOut } from '../../redux/reducers/UserSlice';
-import { RootState } from '../../store';
+import { Button, Flex, Menu, Drawer, Grid } from 'antd';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { isAuth } from '../../redux/utils/auth';
+import {
+    MenuOutlined,
+    FileTextOutlined,
+    CheckCircleOutlined,
+    BarChartOutlined,
+    ProfileOutlined,
+    UserOutlined,
+    LoginOutlined,
+    LogoutOutlined,
+    UserAddOutlined,
+    HomeOutlined
+} from '@ant-design/icons';
 import './NavMenu.css';
-import { logOutUser, isAuth } from '../../redux/utils/auth';
 
-const boxStyle: React.CSSProperties = {
-    width: '100%',
-    height: 60,
-    border: 'none',
-};
-
-const menuStyle: React.CSSProperties = {
-    display: 'flex',
-    minWidth: '20%',
-    height: 60,
-    border: 'none',
-    backgroundColor: 'black',
-    color: 'white',
-}
-
-const imageStyle: React.CSSProperties = {
-    width: 120, height: 60, cursor: 'pointer'
-}
-
-const imageIconStyle: React.CSSProperties = {
-    width: 30, height: 30, cursor: 'pointer', marginRight: '1em'
-}
-
-const navLinkStyle: React.CSSProperties = {
-    color: 'white',
-    padding: '3em',
-}
+const { useBreakpoint } = Grid;
 
 const NavMenu: React.FC = () => {
-
+    const [visible, setVisible] = useState(false);
+    const screens = useBreakpoint();
     const navigate = useNavigate();
+    const location = useLocation();
+    const isMobile = !screens.md;
+
+    const handleNavigation = (path: string) => {
+        if (location.pathname === '/home') {
+            // Если мы уже на главной странице, просто скроллим к секции
+            const section = document.getElementById(path.replace('/home#', ''));
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            // Иначе переходим на главную страницу и затем к секции
+            navigate('/home');
+            setTimeout(() => {
+                const section = document.getElementById(path.replace('/home#', ''));
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100); // Небольшая задержка для загрузки страницы
+        }
+        setVisible(false);
+    };
+
+    const menuItems = [
+        {
+            key: 'home',
+            icon: <HomeOutlined />,
+            label: 'Главная',
+            path: '/home'
+        },
+        {
+            key: 'check',
+            icon: <CheckCircleOutlined />,
+            label: 'Проверка',
+            path: '/home#check' // Добавляем хэш для секции
+        },
+        {
+            key: 'grammar',
+            icon: <FileTextOutlined />,
+            label: 'Грамматика',
+            path: '/home#grammar'
+        },
+        {
+            key: 'analytics',
+            icon: <BarChartOutlined />,
+            label: 'Аналитика',
+            path: '/home#analytics'
+        },
+        {
+            key: 'reports',
+            icon: <ProfileOutlined />,
+            label: 'Отчеты',
+            path: '/home#reports'
+        }
+    ];
+
+    const authItems = isAuth() ? [
+        {
+            key: 'profile',
+            icon: <UserOutlined />,
+            label: 'Профиль',
+            path: '/account'
+        },
+        {
+            key: 'logout',
+            icon: <LogoutOutlined />,
+            label: 'Выйти',
+            path: '/logOut'
+        }
+    ] : [
+        {
+            key: 'register',
+            icon: <UserAddOutlined />,
+            label: 'Регистрация',
+            path: '/register'
+        },
+        {
+            key: 'login',
+            icon: <LoginOutlined />,
+            label: 'Войти',
+            path: '/login'
+        }
+    ];
+
+    const toggleDrawer = () => {
+        setVisible(!visible);
+    };
 
     return (
-        <>
-            <Flex gap={30} className='headerStyle' align={'flex-end'} justify={'flex-end'}>
-                <img style={imageStyle} src="/image/logo.png" onClick={() => navigate('/home')}></img>
-                <Flex gap={30} className='headerStyle' align={'flex-center'} justify={'flex-end'}>
-                    <div className='blockDiv'>
+        <header className="nav-header">
+            <Flex justify="space-between" align="center" className="nav-container">
+                <img 
+                    className="nav-logo" 
+                    src="/image/logo.png" 
+                    onClick={() => navigate('/home')} 
+                    alt="Логотип"
+                />
 
-                        <NavLink style={navLinkStyle} to="/check">
-                            <img style={imageIconStyle} src="/image/checkIcon.png" ></img>
-                            Проверка
-                        </NavLink>
-                    </div>
-                    <div className='blockDiv'>
-                        <NavLink style={navLinkStyle} to="/grammar">
-                            <img style={imageIconStyle} src="/image/grammarIcon.png" ></img>
-                            Грамматика
-                        </NavLink>
-                    </div>
-                    <div className='blockDiv'>
-                        <NavLink style={navLinkStyle} to="/analytics">
-                            <img style={imageIconStyle} src="/image/analyticIcon.png" ></img>
-                            Аналитика
-                        </NavLink>
-                    </div>
-                    <div className='blockDiv'>
-                        <NavLink style={navLinkStyle} to="/reports">
-                            <img style={imageIconStyle} src="/image/reportIcon.png" ></img>
-                            Отчеты
-                        </NavLink>
-                    </div>
-                    {
-                        isAuth() ?
-                            <>
-                                <Button className='nav-button' onClick={() => { navigate('/account') }} > Профиль</Button>
-                                <Button className='nav-button' onClick={() => { navigate('/logOut') }} > Выйти</Button>
-                            </>
-                            :
-                            <>
-                                <Button className='nav-button' onClick={() => { navigate("/register") }}>Регистрация</Button>
-                                <Button className='nav-button' onClick={() => { navigate("/login") }}>Войти</Button>
-                            </>
-                    }
-
-                </Flex>
-            </Flex >
-        </>
-    )
+                {isMobile ? (
+                    <>
+                        <Button 
+                            type="text" 
+                            icon={<MenuOutlined />} 
+                            onClick={toggleDrawer}
+                            className="burger-button"
+                        />
+                        <Drawer
+                            title="Меню"
+                            placement="right"
+                            onClose={toggleDrawer}
+                            open={visible}
+                            className="nav-drawer"
+                        >
+                            <Menu mode="vertical" className="mobile-menu">
+                                {menuItems.map(item => (
+                                    <Menu.Item 
+                                        key={item.key}
+                                        icon={item.icon}
+                                        onClick={() => {
+                                            if (item.path.includes('#')) {
+                                                handleNavigation(item.path);
+                                            } else {
+                                                navigate(item.path);
+                                                setVisible(false);
+                                            }
+                                        }}
+                                    >
+                                        {item.label}
+                                    </Menu.Item>
+                                ))}
+                                {authItems.map(item => (
+                                    <Menu.Item 
+                                        key={item.key}
+                                        icon={item.icon}
+                                        onClick={() => {
+                                            navigate(item.path);
+                                            setVisible(false);
+                                        }}
+                                    >
+                                        {item.label}
+                                    </Menu.Item>
+                                ))}
+                            </Menu>
+                        </Drawer>
+                    </>
+                ) : (
+                    <Flex gap="middle" align="center" className="desktop-menu">
+                        {menuItems.map(item => (
+                            <Button
+                                key={item.key}
+                                type="text"
+                                icon={item.icon}
+                                className="nav-button"
+                                onClick={() => {
+                                    if (item.path.includes('#')) {
+                                        handleNavigation(item.path);
+                                    } else {
+                                        navigate(item.path);
+                                    }
+                                }}
+                            >
+                                {item.label}
+                            </Button>
+                        ))}
+                        {authItems.map(item => (
+                            <Button
+                                key={item.key}
+                                type="text"
+                                icon={item.icon}
+                                className="nav-button"
+                                onClick={() => navigate(item.path)}
+                            >
+                                {item.label}
+                            </Button>
+                        ))}
+                    </Flex>
+                )}
+            </Flex>
+        </header>
+    );
 };
 
-export default NavMenu
+export default NavMenu;

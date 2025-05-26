@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "description": "Запрос на создание заявки на кредит в сервисе Credit Broker Online",
+  "description": "Запрос на создание пользователя",
   "properties": {
     "username": {
       "type": "string",
-      "description": "Имя пользовтаеля для входа",
+      "description": "Имя пользоватаеля для входа",
       "example": "olga"
     },
     "password": {
@@ -13,49 +13,26 @@
       "description": "Пароль пользователя",
       "example": "password1_D"
     },
-    "firstName": {
-      "type": "string",
-      "description": "Имя пользователя",
-      "example": "Ольга"
-    },
-    "lastName": {
-      "type": "string",
-      "description": "Фамилия пользователя",
-      "example": "Семерник"
-    },
-    "surname": {
-      "type": "string",
-      "description": "Отчество пользователя",
-      "example": "Дмитриевна"
-    },
-    "groupNumber": {
-      "type": "string",
-      "description": "Номер группы",
-      "example": "114302"
-    },
     "email": {
       "type": "string",
       "format": "email",
       "description": "Электронная почта пользователя",
       "example": "semernik.olga@bsuir.by"
     },
-    "type": {
+    "userRole": {
       "type": "string",
       "description": "Тип пользователя",
       "enum": [
-        "STUDENT",
-        "TEACHER",
+        "USER",
         "ADMIN"
       ],
-      "default": "STUDENT"
+      "default": "USER"
     }
   },
   "required": [
     "username",
     "password",
-    "firstName",
-    "lastName",
-    "type",
+    "userRole",
     "email"
   ]
 }

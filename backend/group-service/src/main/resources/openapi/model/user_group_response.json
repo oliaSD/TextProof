@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Ответ на получение информации о пользователе в системе",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Имя пользователя для входа",
+      "example": "group-xx--x-x-213-123231"
+    },
+    "name": {
+      "type": "string",
+      "format": "email",
+      "description": "Электронная почта пользователя",
+      "example": "group"
+    },
+    "type": {
+      "type": "string",
+      "description": "Тип пользователя",
+      "default": "Private"
+    },
+    "members": {
+      "type": "array",
+      "description": "Статус пользователя",
+      "items": {
+        "$ref" : "info_user_response.json"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type"
+  ]
+}

@@ -1,52 +1,108 @@
-/* a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
-html {
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
-.headerStyle {
-    border: none;
-    color: white;
+.nav-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     background-color: black;
-    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 0 20px;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
     height: 60px;
-    padding: 10px;
-    margin: 0px 50px 0px 0px;
 }
 
-
-.box-shadow {
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+.nav-logo {
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.blockDiv {
-    color: white
+.nav-logo:hover {
+    transform: scale(1.05);
 }
 
-.nav-link {
-    color : white
-} */
-
+.desktop-menu {
+    height: 100%;
+}
 
 .nav-button {
-    background-image: linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%));
-    border-radius: 1em;
-    border: none;
-    padding: 12px 4px;
-    transition: all 0.5s ease;
-    font-size: 10pt;
-    font-weight: bold;
-    width: 10em;
-    height: 2.5em;
-    margin-top: 1em;
+    color: white !important;
+    height: 100%;
+    border-radius: 0 !important;
+    padding: 0 15px !important;
+    display: flex !important;
+    align-items: center;
+    transition: all 0.3s ease !important;
+}
+
+.nav-button:hover {
+    background: linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%)) !important;
+    color: white !important;
+}
+
+.nav-button:active {
+    transform: scale(0.98);
+}
+
+.burger-button {
+    color: white !important;
+    font-size: 20px !important;
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.nav-drawer .ant-drawer-header {
+    background-color: black !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+.nav-drawer .ant-drawer-title {
+    color: white !important;
+}
+
+.nav-drawer .ant-drawer-body {
+    background-color: black !important;
+    padding: 0 !important;
+}
+
+.mobile-menu {
+    background-color: transparent !important;
+    border-right: none !important;
+    color: white !important;
+}
+
+.mobile-menu .ant-menu-item {
+    color: white !important;
+    margin: 0 !important;
+    height: 50px !important;
+    line-height: 50px !important;
+    display: flex !important;
+    align-items: center;
+    transition: all 0.3s ease !important;
+}
+
+.mobile-menu .ant-menu-item:hover {
+    background: linear-gradient(240deg, #f01ec6c9, hwb(312 58% 12%)) !important;
+}
+
+.mobile-menu .ant-menu-item-selected {
+    background-color: transparent !important;
+}
+
+.mobile-menu .anticon {
+    font-size: 18px !important;
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0 10px;
+    }
+    
+    .nav-logo {
+        height: 40px;
+    }
 }

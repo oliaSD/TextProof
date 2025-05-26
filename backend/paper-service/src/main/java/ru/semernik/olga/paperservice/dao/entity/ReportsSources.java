@@ -33,6 +33,9 @@ public class ReportsSources {
   private Long startPosition;
 
   @Column
+  private Double borrowingPercentage;
+
+  @Column
   private Long endPosition;
 
   @Column

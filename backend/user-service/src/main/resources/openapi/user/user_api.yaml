@@ -143,13 +143,13 @@ paths:
         500:
           description: Internal server error
 
-  /find:
+  /findByUsername:
     get:
       tags:
         - Users
       summary: Метод поиска пользователя
       description: Метод поиска пользователя
-      operationId: find
+      operationId: findByUsername
       parameters:
         - in: query
           name: username
@@ -169,6 +169,171 @@ paths:
           description: To many requests
         500:
           description: Internal server error
+
+  /findByEmail:
+    get:
+      tags:
+        - Users
+      summary: Метод поиска пользователя
+      description: Метод поиска пользователя
+      operationId: findByEmail
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+            description: Email пользователя в системе
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'model/find_user_response.json'
+        400:
+          description: Incorrect request format
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+  /activate/{activateCode}:
+    get:
+      tags:
+        - Activate
+      summary: Метод активации аккаунта пользователя
+      description: Метод активации аккаунта пользователя
+      operationId: getActivate
+      parameters:
+        - in: path
+          name: activateCode
+          required: true
+          schema:
+            type: string
+            description: Код активации аккаунта пользователя
+      responses:
+        200:
+          description: Success
+        400:
+          description: Incorrect request format
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+  /activate:
+    post:
+      tags:
+        - Activate
+      summary: Метод активации аккаунта пользователя
+      description: Метод активации аккаунта пользователя
+      operationId: activate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'model/activate_request.json'
+      responses:
+        200:
+          description: Success
+        400:
+          description: Incorrect request format
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+  /admin/create:
+    post:
+      tags:
+        - Admin
+      summary: Метод создания администратора
+      description: Метод создания администратора (доступен только для существующих администраторов)
+      operationId: createAdmin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'model/create_user_request.json'
+        required: true
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'model/create_user_response.json'
+        400:
+          description: Incorrect request format
+        403:
+          description: Permission denied
+        409:
+          description: Username or email already used
+        429:
+          description: To many requests
+        500:
+          description: Internal server error
+
+  /admin/users:
+      get:
+        tags:
+          - Admin
+        summary: Метод получения списка всех пользователей
+        description: Метод получения списка всех пользователей (доступен только для администраторов)
+        operationId: getAllUsers
+        responses:
+          200:
+            description: Success
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: 'model/info_user_response.json'
+          403:
+            description: Permission denied
+          429:
+            description: To many requests
+          500:
+            description: Internal server error
+
+  /admin/block/{username}:
+      post:
+        tags:
+          - Admin
+        summary: Метод блокировки/разблокировки пользователя
+        description: Метод изменения статуса блокировки пользователя (доступен только для администраторов)
+        operationId: toggleUserBlock
+        parameters:
+          - name: username
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blocked:
+                    type: boolean
+                    description: Флаг блокировки пользователя
+                required:
+                  - blocked
+        responses:
+          200:
+            description: Success
+          400:
+            description: Incorrect request format
+          403:
+            description: Permission denied
+          404:
+            description: User not found
+          429:
+            description: To many requests
+          500:
+            description: Internal server error
 
 tags:
   - name: Users

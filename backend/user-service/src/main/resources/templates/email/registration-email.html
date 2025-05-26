@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подтверждение регистрации</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 5px 5px 0 0;
+    }
+    .content {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 0 0 5px 5px;
+      border: 1px solid #ddd;
+      border-top: none;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4a6fa5;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 15px 0;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>Добро пожаловать!</h1>
+</div>
+<div class="content">
+  <p>Здравствуйте, <span th:text="${username}">Пользователь</span>!</p>
+  <p>Благодарим вас за регистрацию на <span th:text="${serviceName}">Наш Сервис</span>. Для завершения регистрации, пожалуйста, подтвердите ваш email адрес, нажав на кнопку ниже:</p>
+
+  <div style="text-align: center;">
+    <a th:href="${confirmationLink}" class="button">Подтвердить Email</a>
+  </div>
+
+  <p>Если вы не регистрировались на нашем сервисе, пожалуйста, проигнорируйте это письмо.</p>
+  <p>Ссылка действительна в течение <span th:text="${expirationHours}">24</span> часов.</p>
+
+  <p>С уважением,<br>Команда <span th:text="${serviceName}">Наш Сервис</span></p>
+</div>
+<div class="footer">
+  <p>© 2025 <span th:text="${serviceName}">Наш Сервис</span>. Все права защищены.</p>
+  <p>Если кнопка не работает, скопируйте и вставьте следующую ссылку в браузер:<br>
+    <a th:href="${confirmationLink}" th:text="${confirmationLink}">Ссылка для подтверждения</a></p>
+</div>
+</body>
+</html>

@@ -35,6 +35,9 @@ public class PapersEntity {
   private String username;
 
   @Column(nullable = false)
+  private boolean isPublic = false;
+
+  @Column(nullable = false)
   private String type;
 
   @OneToOne(cascade = CascadeType.ALL)
