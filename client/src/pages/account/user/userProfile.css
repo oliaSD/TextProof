@@ -1,0 +1,51 @@
+.user-profile-container {
+  background: black;
+  padding: 20px;
+  max-height: calc(100vh - 140px);
+  overflow:scroll;
+}
+
+.profile-content-wrapper {
+  height: 80vh;
+  overflow-y: auto;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+
+.profile-card {
+  padding: 20px;
+}
+
+.ant-card-head-title {
+  color: white !important;
+}
+
+.ant-form-item-label > label {
+  color: white !important;
+}
+
+.ant-table {
+  background: black !important;
+}
+
+.ant-table-thead > tr > th {
+  background: black !important;
+  border-bottom-color: #333 !important;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom-color: #333 !important;
+}
+
+.profile-content-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.profile-content-wrapper::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.profile-content-wrapper::-webkit-scrollbar-thumb {
+  background-color: #D189C9;
+  border-radius: 4px;
+}

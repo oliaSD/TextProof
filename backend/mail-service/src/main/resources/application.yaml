@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: mail-service
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/antiplagiat
+    username: postgres
+    password: postgres
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: textproofap@gmail.com
+    password: yrdbicigxeysdwfd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+mail:
+  user_url: http://localhost:8080/activate/
+  group_url : http://localhost:8082/groups/
+
+server:
+  port : 8083

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: group-service
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.format_sql: true
+      hibernate:
+        globally_quoted_identifiers: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/antiplagiat
+    username: postgres
+    password: postgres
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+      FAIL_ON_NUMBERS_FOR_ENUMS: true
+      FAIL_ON_NULL_FOR_PRIMITIVES: true
+      USE_BIG_DECIMAL_FOR_FLOATS: true
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: true
+    generator:
+      WRITE_BIGDECIMAL_AS_PLAIN: true
+    visibility:
+      field: any
+
+
+server:
+  port: 8084
