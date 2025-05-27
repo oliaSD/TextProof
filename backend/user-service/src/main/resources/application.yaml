@@ -18,11 +18,9 @@ spring:
     username: postgres
     password: postgres
 
-
-
 api:
   mail:
-    base_url: http://localhost:8083/
+    base_url: ${API_MAIL_BASE_URL:http://localhost:8083}
 
 jwt:
   token:

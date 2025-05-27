@@ -12,6 +12,6 @@ COPY --from=maven-builder /app/target/mail-service-1.0.0-SNAPSHOT.jar /app/app.j
 
 WORKDIR /app
 
-EXPOSE 8082
+EXPOSE 8083
 
 CMD ["java", "-jar", "app.jar"]

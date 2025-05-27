@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  user_service:
+  user:
     image: semernik/user-service
     build: ./backend/user-service
     restart: always
@@ -9,13 +9,14 @@ services:
     networks:
       - postgres-net
     environment:
-      - spring.datasource.url=jdbc:postgresql://postgresql:5432/antiplagiat
+      API_MAIL_BASE_URL : http://mail:8083/
+      spring.datasource.url : jdbc:postgresql://postgresql:5432/antiplagiat
     depends_on:
       - postgresql
     volumes:
       - .m2:/root/.m2
 
-  group_service:
+  group:
     image: semernik/group_service
     build: ./backend/group-service
     restart: always
@@ -24,12 +25,14 @@ services:
     networks:
       - postgres-net
     environment:
-      - spring.datasource.url=jdbc:postgresql://postgresql:5432/antiplagiat
+      API_USER_BASE_URL :  http://user/8080/
+      API_MAIL_BASE_URL : http://mail:8083/
+      spring.datasource.url : jdbc:postgresql://postgresql:5432/antiplagiat
     depends_on:
       - postgresql
     volumes:
       - .m2:/root/.m2
-  mail_service:
+  mail:
     image: semernik/mail_service
     build: ./backend/mail-service
     restart: always
@@ -44,7 +47,7 @@ services:
     volumes:
       - .m2:/root/.m2
     
-  analytic_service:
+  analytic:
     image: semernik/analytic_service
     build: ./backend/analytic-service
     restart: always

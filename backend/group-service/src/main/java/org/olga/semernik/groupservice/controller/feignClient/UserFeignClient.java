@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.semernik.olga.groupservice.group.dto.FindUserResponse;
 
-@FeignClient(value = "user", url = "${api.user.base_uri}", configuration = FeignClientConfiguration.class)
+@FeignClient(value = "user", url = "${api.user.base_url}", configuration = FeignClientConfiguration.class)
 public interface UserFeignClient {
 
   @RequestMapping(method = RequestMethod.GET, value = "/findByUsername")
