@@ -83,7 +83,7 @@ const NavMenu: React.FC = () => {
             key: 'profile',
             icon: <UserOutlined />,
             label: 'Профиль',
-            path: '/account'
+            path: '/account/file'
         },
         {
             key: 'logout',

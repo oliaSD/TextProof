@@ -37,7 +37,7 @@ const GroupMenuComponent: React.FC = () => {
         {
             key: 'file',
             icon: <FileOutlined style={{ fontSize: '20px' }} />,
-            label: collapsed ? null : 'Мои файлы',
+            label: collapsed ? null : 'Файлы группы',
         },
         {
             key: 'check',

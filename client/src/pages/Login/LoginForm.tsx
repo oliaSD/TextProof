@@ -122,12 +122,15 @@ const LoginForm: React.FC = () => {
             role: res['roles'][0],
             id: 0
           }
+          console.log(user)
           authUser(user.password, user.username, response.data.token, user.role as string)
           dispatch(auth(user))
           if (user.role === "ROLE_ADMIN"){
             navigate("/admin");
+          }else {
+            navigate("/account/file");
           }
-          navigate("/account/file");
+
         } catch (decodeError) {
           console.error('Error decoding token:', decodeError);
           errorShow('Ошибка обработки данных авторизации');
