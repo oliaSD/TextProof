@@ -13,7 +13,7 @@ spring:
         globally_quoted_identifiers: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/antiplagiat?currentSchema=papers_schema
+    url: jdbc:postgresql://localhost:5432/antiplagiat
     username: postgres
     password: postgres
   jackson:

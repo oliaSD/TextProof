@@ -21,7 +21,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reports_params", schema = "papers_schema")
+@Table(name = "reports_params")
 @Setter
 @Getter
 public class ReportsParams {
@@ -33,7 +33,7 @@ public class ReportsParams {
   @Column
   private LocalDateTime created;
 
-  @Column
+  @Column(name = "last_check_time")
   private LocalDateTime updated;
 
   @Column
@@ -44,9 +44,6 @@ public class ReportsParams {
 
   @Column
   private Double citationPercentage;
-
-  @Column
-  private Long endPosition;
 
   @Column
   private Time checkTime;

@@ -20,7 +20,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "papers_attributes", schema = "papers_schema")
+@Table(name = "papers_attributes")
 @Setter
 @Getter
 public class PapersAttributeEntity {
@@ -29,7 +29,7 @@ public class PapersAttributeEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, name = "text_size")
   private Long size;
 
   @Column()
@@ -39,7 +39,7 @@ public class PapersAttributeEntity {
   private String hash;
 
   @Column(nullable = false)
-  private Boolean isShare;
+  private Boolean isShared;
 
   @Column(nullable = false)
   private Boolean isSource;
@@ -50,11 +50,8 @@ public class PapersAttributeEntity {
   @Column(nullable = false)
   private Long wordCount;
 
-  @Column(nullable = false)
+  @Column(nullable = false, name = "name")
   private String fileName;
-
-  @Column(nullable = false)
-  private String fileExtension;
 
   @OneToOne(mappedBy = "papersAttribute")
   private PapersEntity papers;

@@ -53,7 +53,7 @@ const GrammarComponent = () => {
             }, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer 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`
+                    'Authorization': `Bearer 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`
                 }
             });
 

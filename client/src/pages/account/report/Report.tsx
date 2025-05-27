@@ -244,7 +244,7 @@ export const ReportComponent: React.FC = () => {
                 </Button>
 
                 {showPdf ? (
-                    <PdfViewer  fileUrl = {"/example.pdf"}/>
+                    <PdfViewer  fileUrl = {`http://localhost:8081/full/report/paper/${reportId.reportId}`}/>
                 ) : (
                     <>
                         <h2 style={headerStyle}>

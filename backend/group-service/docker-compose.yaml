@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  paper_service:
+  group_service:
     image: semernik/group_service
     build: .
     restart: always

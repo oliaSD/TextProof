@@ -9,7 +9,8 @@ import ru.semernik.olga.userservice.dao.entity.UserActiveStatus;
 import ru.semernik.olga.userservice.dao.entity.UserEntity;
 import ru.semernik.olga.userservice.dao.entity.UserRole;
 import ru.semernik.olga.userservice.exception.CreateUserException;
-import ru.semernik.olga.userservice.service.common.UserMailSenderService;
+import ru.semernik.olga.userservice.io.output.dto.EmailRequest;
+import ru.semernik.olga.userservice.io.output.feignClient.EmailFeignClient;
 import ru.semernik.olga.userservice.service.common.UserService;
 import ru.semernik.olga.userservice.user.dto.AuthResponse;
 import ru.semernik.olga.userservice.user.dto.CreateUserRequest;
@@ -23,7 +24,7 @@ public class CreateUserService {
   private final UserService userService;
   private final BCryptPasswordEncoder passwordEncoder;
   private final JwtTokenProvider jwtTokenProvider;
-  private final UserMailSenderService userMailSenderService;
+  private final EmailFeignClient emailFeignClient;
 
   public CreateUserResponse createUser(CreateUserRequest request) {
     return createUserWithRole(request, UserRole.ROLE_USER, UserActiveStatus.NOACTIVE, true);
@@ -80,12 +81,13 @@ public class CreateUserService {
 
   private void sendActivationEmailIfNeeded(UserEntity user, boolean needsActivation) {
     if (needsActivation) {
-      userMailSenderService.sendRegistrationConfirmation
-          (user.getEmail(),
-              user.getUsername(),
-              user.getActivateCode(),
-              "TextProof",
-              24);
+      activateUser(user);
     }
+  }
+
+  public void activateUser(UserEntity user) {
+    emailFeignClient.sendToUser(EmailRequest.builder().email(user.getEmail())
+        .activationCode(user.getActivateCode())
+        .username(user.getUsername()).build());
   }
 }

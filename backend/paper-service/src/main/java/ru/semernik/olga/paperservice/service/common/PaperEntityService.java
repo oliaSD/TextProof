@@ -19,7 +19,7 @@ public class PaperEntityService {
   }
 
   public List<PapersEntity> findAllByUsername(String username) {
-    return papersRepository.findAllByUsername(username);
+    return papersRepository.findAllByOwnerName(username);
   }
 
   public PapersEntity findById(Long id) {

@@ -101,6 +101,6 @@ public class PaperControllerIntegrationTest extends BaseSpringBootContext {
     result.andExpect(status().is(HttpStatus.CREATED.value()))
         .andExpect(content().json(objectMapper.writeValueAsString(response)));
 
-    assertNotNull(papersRepository.findByUsernameAndId(USERNAME, PAPER_ID));
+    assertNotNull(papersRepository.findByOwnerNameAndId(USERNAME, PAPER_ID));
   }
 }

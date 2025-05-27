@@ -20,7 +20,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reports_sources", schema = "papers_schema")
+@Table(name = "reports_sources")
 @Setter
 @Getter
 public class ReportsSources {

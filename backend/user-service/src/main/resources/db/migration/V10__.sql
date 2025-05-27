@@ -5,6 +5,13 @@ CREATE TABLE users
     password       VARCHAR(255)                            NOT NULL,
     email          VARCHAR(255)                            NOT NULL,
     account_status VARCHAR(255)                            NOT NULL,
+    activate_code  VARCHAR(255),
     role           VARCHAR(255)                            NOT NULL,
     CONSTRAINT pk_users PRIMARY KEY (id)
 );
+
+CREATE INDEX idx_activate_code ON users (activate_code);
+
+CREATE INDEX idx_email ON users (email);
+
+CREATE INDEX idx_username ON users (username);

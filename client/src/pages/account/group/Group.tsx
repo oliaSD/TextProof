@@ -60,7 +60,7 @@ export const GroupsPage = () => {
 
   const handleCreateGroup = async (values: any) => {
     try {
-      await api.post('/groups', values);
+      await api.post('/groups', {...values, "username" : getUser().username});
       message.success('Группа успешно создана');
       setIsModalVisible(false);
       form.resetFields();
@@ -354,18 +354,11 @@ export const GroupsPage = () => {
             onFinish={handleCreateGroup}
           >
             <Form.Item
-              name="name"
+              name="groupName"
               label="Название группы"
               rules={[{ required: true, message: 'Введите название группы' }]}
             >
               <Input placeholder="Введите название группы" />
-            </Form.Item>
-            
-            <Form.Item
-              name="description"
-              label="Описание"
-            >
-              <Input.TextArea placeholder="Введите описание группы" />
             </Form.Item>
             
             <Form.Item
@@ -374,7 +367,6 @@ export const GroupsPage = () => {
               initialValue={false}
             >
               <Select>
-                <Option value={true}>Публичная</Option>
                 <Option value={false}>Приватная</Option>
               </Select>
             </Form.Item>

@@ -60,9 +60,8 @@ public class PapersParserService {
       }
       PapersAttributeEntity attributeEntity = PapersAttributeEntity.builder()
           .authors(username)
-          .fileExtension(paper.getContentType())
           .fileName(paper.getOriginalFilename())
-          .isShare(false)
+          .isShared(false)
           .isSource(false)
           .papers(papers)
           .wordCount(offset)
@@ -72,9 +71,8 @@ public class PapersParserService {
           .build();
       papers.setPapersTexts(paragraphs);
       papers.setType("document");
-      papers.setPublic(isPublic);
+      papers.setOwnerName(username);
       papers.setPapersAttribute(attributeEntity);
-      papers.setUsername(username);
       papers.setType(papers.getType());
       return papers;
     } catch (IOException | SAXException | TikaException e) {

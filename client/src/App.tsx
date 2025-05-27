@@ -52,6 +52,7 @@ function App() {
           <Route path='group/:id' element={<GroupAccountComponent />} />
           <Route path='group/file/:id' element={<GroupAccountComponent />} />
           <Route path='group/check/:id' element={<GroupAccountComponent />} />
+          <Route path='group/analytic/:id'element={<GroupAccountComponent />} />
           <Route path='account/*' element={<AccountComponent />} />
           <Route path="*" element={
             <HomeComponent />

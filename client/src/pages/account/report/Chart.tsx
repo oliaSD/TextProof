@@ -5,12 +5,14 @@ interface PieChartProps {
     data: Array<{ type: string; value: number }>;
     width?: number;
     height?: number;
+    darkMode? : boolean
 }
 
 export const PieChartComponent = ({
     data,
     width = 500,
     height = 300,
+    darkMode
 }: PieChartProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const piePlotRef = useRef<Pie | null>(null);

@@ -30,9 +30,7 @@ public class GroupService {
     Group group = new Group();
     group.setName(createGroupRequest.getGroupName());
 
-    group.setAdmin(admin);
     group.getMembers().add(admin);
-    admin.getAdminGroups().add(group);
     admin.getGroups().add(group);
 
     groupRepository.save(group);

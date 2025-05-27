@@ -1,16 +1,16 @@
-package ru.semernik.olga.userservice.service.common;
+package org.olga.semernik.mailservice.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
+import org.olga.semernik.mailservice.email.EmailConfigProps;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import ru.semernik.olga.userservice.configuration.email.EmailConfigProps;
+
 
 @Service
 @RequiredArgsConstructor
@@ -35,11 +35,11 @@ public class UserMailSenderService {
 
     Context context = new Context();
     context.setVariable("username", username);
-    context.setVariable("confirmationLink", emailConfigProps.getBaseUrl() + confirmationLink);
+    context.setVariable("confirmationLink", emailConfigProps.getUserUrl() + confirmationLink);
     context.setVariable("serviceName", serviceName);
     context.setVariable("expirationHours", expirationHours);
 
-    String htmlContent = templateEngine.process("email/registration-email", context);
+    String htmlContent = templateEngine.process("registration-email", context);
 
     MimeMessage message = javaMailSender.createMimeMessage();
     MimeMessageHelper helper = null;
@@ -55,14 +55,25 @@ public class UserMailSenderService {
     javaMailSender.send(message);
   }
 
+  public void sendConfirmationGroup(String email, String activationCode) {
+    String subject = "Подтверждение регистрации";
 
-  public void sendSimpleMail(String to, String subject, String text) {
-    var message = new SimpleMailMessage();
-    message.setTo(to);
-    message.setFrom("TextProof");
-    message.setText(emailConfigProps.getBaseUrl() + text);
-    message.setSubject(subject);
-    log.info("Sending email {}", message);
+    Context context = new Context();
+    context.setVariable("link", emailConfigProps.getGroupUrl() + activationCode);
+
+    String htmlContent = templateEngine.process("group", context);
+
+    MimeMessage message = javaMailSender.createMimeMessage();
+    MimeMessageHelper helper = null;
+    try {
+      helper = new MimeMessageHelper(message, true, "UTF-8");
+      helper.setTo(email);
+      helper.setSubject(subject);
+      helper.setText(htmlContent, true);
+
+    } catch (MessagingException e) {
+      throw new RuntimeException(e);
+    }
     javaMailSender.send(message);
   }
 }

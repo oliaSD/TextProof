@@ -10,11 +10,11 @@ const { Header, Footer, Content } = Layout;
 
 const FooterContainer: React.FC = () => {
   return (
-    <div className="footer-content">
-      <div className="footer-grid">
+    <div className="footer-content compact-footer">
+      <div className="footer-grid compact-grid">
         <div className="footer-section">
           <h3 className="footer-title">О сервисе</h3>
-          <p className="footer-text">
+          <p className="footer-text compact-text">
             TextProof - современный инструмент для проверки текстов на уникальность и грамматику.
           </p>
         </div>
@@ -22,10 +22,10 @@ const FooterContainer: React.FC = () => {
         <div className="footer-section">
           <h3 className="footer-title">Контакты</h3>
           <div className="footer-contacts">
-            <a href="mailto:textproof@gmail.com" className="footer-link">
+            <a href="mailto:textproof@gmail.com" className="footer-link compact-link">
               <MailOutlined /> textproof@gmail.com
             </a>
-            <a href="https://t.me/textproof" className="footer-link">
+            <a href="https://t.me/textproof" className="footer-link compact-link">
               <MessageOutlined /> Telegram
             </a>
           </div>
@@ -34,14 +34,14 @@ const FooterContainer: React.FC = () => {
         <div className="footer-section">
           <h3 className="footer-title">Ресурсы</h3>
           <div className="footer-links">
-            <Link to="/privacy" className="footer-link">Политика конфиденциальности</Link>
-            <Link to="/terms" className="footer-link">Условия использования</Link>
-            <Link to="/docs" className="footer-link">Документация</Link>
+            <Link to="/privacy" className="footer-link compact-link">Политика конфиденциальности</Link>
+            <Link to="/terms" className="footer-link compact-link">Условия использования</Link>
+            <Link to="/docs" className="footer-link compact-link">Документация</Link>
           </div>
         </div>
       </div>
       
-      <div className="footer-bottom">
+      <div className="footer-bottom compact-bottom">
         <span className="footer-copyright">
           © {new Date().getFullYear()} TextProof. Все права защищены.
         </span>
@@ -56,7 +56,7 @@ const Lay = (props: { children?: React.ReactNode }) => (
       components: {
         Layout: {
           footerBg: 'transparent',
-          footerPadding: '24px 50px',
+          footerPadding: '12px 50px', // Уменьшил padding с 24px до 12px
         },
       },
     }}
@@ -70,7 +70,7 @@ const Lay = (props: { children?: React.ReactNode }) => (
         {props.children}
       </Content>
       
-      <Footer className="footer">
+      <Footer className="footer compact-footer-container">
         <FooterContainer />
       </Footer>
     </Layout>

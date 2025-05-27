@@ -9,8 +9,8 @@ import ru.semernik.olga.paperservice.dao.entity.PapersEntity;
 @Repository
 public interface PapersRepository extends JpaRepository<PapersEntity, Long> {
 
-  Optional<PapersEntity> findByUsernameAndId(String username, Long id);
+  Optional<PapersEntity> findByOwnerNameAndId(String ownerName, Long id);
 
-  List<PapersEntity> findAllByUsername(String username);
+  List<PapersEntity> findAllByOwnerName(String ownerName);
 
 }

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Приглашение в систему Антиплагиат</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .header {
+      color: #6a0dad;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .content {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #6a0dad;
+      color: white !important;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .footer {
+      margin-top: 30px;
+      font-style: italic;
+      color: #666666;
+      border-top: 1px solid #eeeeee;
+      padding-top: 15px;
+    }
+    .highlight {
+      color: #6a0dad;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="header">TextProof</div>
+
+<div class="content">
+  <p style="font-weight: bold; font-size: 18px; color: #6a0dad;">Уважаемые коллеги!</p>
+
+  <p>
+    Приглашаем вас присоединиться к работе в группах на платформе онлайн-сервиса
+    <span class="highlight">«Антиплагиат»</span> для эффективной проверки и анализа текстов на предмет заимствований.
+  </p>
+
+  <p>В рамках работы группы вы сможете:</p>
+  <ul>
+    <li>Загружать документы для проверки</li>
+    <li>Отслеживать отчёты о результатах анализа</li>
+    <li>Совместно обсуждать и оценивать тексты</li>
+    <li>Использовать инструменты для повышения оригинальности материалов</li>
+  </ul>
+
+  <p>Для подключения к группе нажмите на кнопку ниже:</p>
+
+  <div style="text-align: center;">
+    <a th:href="${link}" class="button" target="_blank">Присоединиться к группе</a>
+  </div>
+
+  <p style="font-size: 14px;">
+    Или скопируйте ссылку в браузер:<br>
+    <span style="word-break: break-all;" th:text="${link}"> </span>
+  </p>
+
+  <p>
+    Если у вас возникнут вопросы по подключению или использованию сервиса,
+    мы будем рады вам помочь.
+  </p>
+</div>
+
+<div class="footer">
+  С уважением,<br>
+  Система проверки на заимствование в научных статьях<br>
+  <strong>TextProof</strong>
+</div>
+</body>
+</html>

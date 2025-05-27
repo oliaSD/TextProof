@@ -21,7 +21,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reports", schema = "papers_schema")
+@Table(name = "reports")
 @Setter
 @Getter
 public class ReportEntity {
@@ -35,9 +35,6 @@ public class ReportEntity {
 
   @Column
   private String name;
-
-  @Column
-  private BigDecimal percent;
 
   @OneToOne(mappedBy = "report")
   private PapersEntity papers;

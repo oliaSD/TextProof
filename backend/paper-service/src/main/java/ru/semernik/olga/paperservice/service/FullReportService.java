@@ -41,7 +41,7 @@ public class FullReportService {
                 .createdDate(formattedDate)
                 .pageCount(0)
                 .build()
-        ).user(User.builder().username(findReport.getPapers().getUsername()).build())
+        ).user(User.builder().username(findReport.getPapers().getOwnerName()).build())
         .reportUrl("ZZZ")
         .sources(findReport.getReportsSources().stream().map(
             e -> Source.builder()

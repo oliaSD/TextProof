@@ -12,6 +12,6 @@ COPY --from=maven-builder /app/target/group-service-1.0.0-SNAPSHOT.jar /app/app.
 
 WORKDIR /app
 
-EXPOSE 8081
+EXPOSE 8082
 
 CMD ["java", "-jar", "app.jar"]

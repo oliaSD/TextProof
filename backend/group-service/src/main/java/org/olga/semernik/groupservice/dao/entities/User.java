@@ -38,7 +38,4 @@ public class User {
 
   @ManyToMany(mappedBy = "members")
   private Set<Group> groups = new HashSet<>();
-
-  @OneToMany(mappedBy = "admin")
-  private Set<Group> adminGroups = new HashSet<>();
 }

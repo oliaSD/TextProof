@@ -34,7 +34,8 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain filterChain(HttpSecurity http, BCryptPasswordEncoder passwordEncoder)
+      throws Exception {
     return http.authorizeHttpRequests(
             authorize -> authorize.requestMatchers("/create").permitAll()
                 .requestMatchers("/auth").permitAll()
@@ -54,22 +55,18 @@ public class SecurityConfiguration {
         }))
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authenticationProvider(daoAuthenticationProvider())
+        .authenticationProvider(daoAuthenticationProvider(passwordEncoder))
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
 
   @Bean
-  public DaoAuthenticationProvider daoAuthenticationProvider() {
+  public DaoAuthenticationProvider daoAuthenticationProvider(
+      BCryptPasswordEncoder passwordEncoder) {
     DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-    daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+    daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
     daoAuthenticationProvider.setUserDetailsService(userDetailsService);
     return daoAuthenticationProvider;
-  }
-
-  @Bean
-  public BCryptPasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
   }
 
   @Bean

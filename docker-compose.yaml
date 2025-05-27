@@ -17,7 +17,7 @@ services:
 
   group_service:
     image: semernik/group_service
-    build: ./backend/group_service
+    build: ./backend/group-service
     restart: always
     ports:
       - 8082:8082
@@ -36,7 +36,7 @@ services:
     build: ./backend/paper-service
     restart: always
     ports:
-      - 8081:8082
+      - 8081:8081
     networks:
       - postgres-net
     environment:

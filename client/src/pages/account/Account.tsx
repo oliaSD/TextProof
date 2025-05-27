@@ -10,6 +10,9 @@ import { calc } from 'antd/es/theme/internal';
 import GroupsPage from './group/Group';
 import { getUser } from '../../redux/utils/auth';
 import GrammarComponent from '../account/grammar/Grammar';
+import UserProfilePage from './user/UserProfilePage';
+import { AnalyticComponent } from '../home/Analytics';
+import StatsPage from './analytic/AnalyticPage';
 
 const { Content, Sider } = Layout;
 
@@ -39,6 +42,8 @@ const AccountComponent: React.FC = () => {
             case '/account/grammar' : return <GrammarComponent />
             case '/account/report': return <ReportComponent />
             case '/account/group': return <GroupsPage />
+            case '/account/account' : return <UserProfilePage/>
+            case '/account/analytic' : return <StatsPage userId={getUser().username}/>
             default: return <></>
         }
     }

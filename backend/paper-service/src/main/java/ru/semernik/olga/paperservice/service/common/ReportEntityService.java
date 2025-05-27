@@ -40,6 +40,6 @@ public class ReportEntityService {
   }
 
   public List<ReportEntity> findAllByUserName(String userName) {
-    return reportRepository.findAllByPapersUsername(userName);
+    return reportRepository.findAllByPapersOwnerName(userName);
   }
 }

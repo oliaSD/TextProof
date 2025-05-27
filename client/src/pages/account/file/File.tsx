@@ -244,7 +244,8 @@ export const FileComponent: React.FC<FileProps> = ({uriUploadFileAction, uriGetF
             <div style={{
                 background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
                 padding: '20px',
-                minHeight: 'calc(100vh - 140px)',
+                maxHeight: 'calc(100vh - 140px)',
+                height: '100%',
                 color: 'white'
             }}>
                 <Row gutter={[16, 16]} style={{ marginBottom: '20px' }}>

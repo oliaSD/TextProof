@@ -25,6 +25,8 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import ru.semernik.olga.paperservice.io.output.google.dto.SearchResponse;
 import ru.semernik.olga.paperservice.io.output.google.dto.SearchResponse.Result;
 import ru.semernik.olga.paperservice.io.output.google.service.GoogleSearchService;
 import ru.semernik.olga.paperservice.service.common.BorrowingText;
@@ -42,7 +44,14 @@ public class DetectorBorrowingText {
   private final WebParserService webParserService;
 
   public BorrowingText isBorrowing(String paragraph) {
-    var response = googleSearchService.search(paragraph);
+    var response = new SearchResponse();
+    try {
+      response = googleSearchService.search(paragraph);
+    } catch (HttpClientErrorException e) {
+      log.error( e.getMessage());
+      return new BorrowingText(null, false, null);
+    }
+
     if (response.getItems() == null || response.getItems().isEmpty()) {
       return new BorrowingText(null, false, null);
     }

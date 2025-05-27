@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "papers", schema = "papers_schema")
+@Table(name = "papers")
 public class PapersEntity {
 
   @Column(unique = true, nullable = false)
@@ -31,11 +31,8 @@ public class PapersEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
-  private String username;
-
-  @Column(nullable = false)
-  private boolean isPublic = false;
+  @Column(nullable = true)
+  private String ownerName;
 
   @Column(nullable = false)
   private String type;

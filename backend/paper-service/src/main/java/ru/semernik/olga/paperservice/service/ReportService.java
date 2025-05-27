@@ -51,7 +51,7 @@ public class ReportService {
     FileMetadata fileMetadata = new FileMetadata();
     fileMetadata.paperId(reportEntity.getId());
     fileMetadata.fileName(reportEntity.getPapers().getPapersAttribute().getFileName());
-    fileMetadata.fileExtension(reportEntity.getPapers().getPapersAttribute().getFileExtension());
+    fileMetadata.fileExtension(".pdf");
     fileMetadata.size(reportEntity.getPapers().getPapersAttribute().getSize());
     fileMetadata.wordCount(reportEntity.getPapers().getPapersAttribute().getWordCount());
     fileMetadata.createdDate(reportEntity.getPapers().getPapersAttribute().getCreated().toString());

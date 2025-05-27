@@ -20,7 +20,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "papers_texts", schema = "papers_schema", indexes = {
+@Table(name = "papers_texts", indexes = {
     @Index(name = "papers_index", columnList = "papers_id")
 })
 @Setter
@@ -37,7 +37,7 @@ public class PapersTextEntity {
   @Column(nullable = false)
   private Long size;
 
-  @Column(nullable = false)
+  @Column(nullable = false, name = "offset")
   private Long textOffset;
 
   @Column(nullable = false)

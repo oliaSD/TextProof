@@ -26,7 +26,7 @@ public class GetAllPaperService {
           FileMetadata fileMetadata = new FileMetadata();
           fileMetadata.paperId(paperEntity.getId());
           fileMetadata.fileName(paperEntity.getPapersAttribute().getFileName());
-          fileMetadata.fileExtension(paperEntity.getPapersAttribute().getFileExtension());
+          fileMetadata.fileExtension(".pdf");
           fileMetadata.size(paperEntity.getPapersAttribute().getSize());
           fileMetadata.wordCount(paperEntity.getPapersAttribute().getWordCount());
           fileMetadata.createdDate(paperEntity.getPapersAttribute().getCreated().toString());

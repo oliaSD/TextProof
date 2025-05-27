@@ -21,12 +21,6 @@ public interface GroupRepository extends JpaRepository<Group, String> {
   @Query("SELECT g FROM Group g JOIN g.members m WHERE m.username = :username")
   List<Group> findAllGroupsByUserId(@Param("username") String username);
 
-  @Query("SELECT g FROM Group g JOIN g.admin a WHERE a.username = :username")
-  List<Group> findAllAdminGroupsByUserId(@Param("username") String username);
-
-  @Query("SELECT COUNT(g) > 0 FROM Group g JOIN g.admin a WHERE g.id = :groupId AND a.username = :username")
-  boolean isUserAdminOfGroup(@Param("username") String username, @Param("groupId") Long groupId);
-
   @Query("SELECT COUNT(g) > 0 FROM Group g JOIN g.members m WHERE g.id = :groupId AND m.username = :username")
   boolean isUserMemberOfGroup(@Param("username") String username, @Param("groupId") Long groupId);
 

@@ -48,12 +48,13 @@ public class UserController implements UsersApi {
 
 
   @Override
-  public ResponseEntity<InfoUserResponse> info() {
-    return null;
+  public ResponseEntity<InfoUserResponse> info(String username) {
+    return ResponseEntity.ok(userService.getUserByUsername(username));
   }
 
   @Override
   public ResponseEntity<Void> update(CreateUserRequest createUserRequest) {
-    return null;
+
+    return ResponseEntity.ok(userService.updateUserInfo(createUserRequest));
   }
 }

@@ -30,26 +30,11 @@ spring:
     visibility:
       field: any
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: virotor.vik@gmail.com
-    password: jyzfmmnlhpihljhg
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls.enable: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-
-mail:
-  base_url: http://localhost:8082
-
 api:
   user:
     base_uri : http://localhost:8080/
+  mail:
+    base_url: http://localhost:8083/
 
 server:
   port: 8082

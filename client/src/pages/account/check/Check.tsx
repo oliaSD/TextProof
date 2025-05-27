@@ -18,13 +18,13 @@ const twoColors: ProgressProps['strokeColor'] = {
 };
 
 interface CheckProps {
-  uriGetCheksAction : string;
-  uriGetStatusAction : string;
-  uriUpdateFilesAction : string;
-  uriNavigate : string,
+    uriGetCheksAction: string;
+    uriGetStatusAction: string;
+    uriUpdateFilesAction: string;
+    uriNavigate: string,
 }
 
-export const CheckAccountComponent: React.FC<CheckProps> = ({uriGetCheksAction, uriGetStatusAction, uriUpdateFilesAction, uriNavigate}) => {
+export const CheckAccountComponent: React.FC<CheckProps> = ({ uriGetCheksAction, uriGetStatusAction, uriUpdateFilesAction, uriNavigate }) => {
     const checkState = useAppSelector((state: RootState) => state.check);
     const dispatch = useAppDispatch();
     const [checks, setChecks] = useState<Check[]>(checkState.checks);
@@ -54,7 +54,7 @@ export const CheckAccountComponent: React.FC<CheckProps> = ({uriGetCheksAction, 
     const status = (check: Check) => {
         axios({
             method: 'post',
-            url: uriGetStatusAction+check.paperId,
+            url: uriGetStatusAction + check.paperId,
             withCredentials: false,
         }).then(function (response) {
             const res = response.data.status as string
@@ -211,7 +211,8 @@ export const CheckAccountComponent: React.FC<CheckProps> = ({uriGetCheksAction, 
                 <div style={{
                     background: 'black',
                     padding: '20px',
-                    minHeight: 'calc(100vh - 140px)'
+                    maxHeight: 'calc(100vh - 140px)',
+                    height: '100%',
                 }}>
                     <Table
                         columns={columns}

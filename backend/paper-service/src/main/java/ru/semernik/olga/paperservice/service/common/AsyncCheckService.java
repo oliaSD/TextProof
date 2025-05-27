@@ -77,7 +77,6 @@ public class AsyncCheckService {
     reportsParams.setOriginalPercentage(
         100d - reportsParams.getCitationPercentage() - reportsParams.getBorrowingPercentage());
     reportsParams.setReport(report);
-    report.setPercent(new BigDecimal(100));
     reportEntityService.saveReportEntity(report);
     long endTime = System.currentTimeMillis();
   }

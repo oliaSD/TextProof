@@ -46,21 +46,10 @@ public class UserService {
       throw new IllegalArgumentException("User not found");
     }
     var newUser = User.builder().username(newFindUser.getUser().getUsername())
-        .email(newFindUser.getUser().getEmail()).adminGroups(new HashSet<>())
+        .email(newFindUser.getUser().getEmail())
         .groups(new HashSet<>()).build();
     userRepository.save(newUser);
     return newUser;
   }
 
-  @Transactional
-  public List<Group> getUserGroups(String username) {
-    User user = getUserByUsername(username);
-    return user.getGroups().stream().toList();
-  }
-
-  @Transactional
-  public List<Group> getUserAdminGroups(String username) {
-    User user = getUserByUsername(username);
-    return user.getAdminGroups().stream().toList();
-  }
 }

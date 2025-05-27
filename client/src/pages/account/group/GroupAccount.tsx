@@ -8,6 +8,7 @@ import { CheckAccountComponent } from '../check/Check';
 import { calc } from 'antd/es/theme/internal';
 import GroupsPage from './Group';
 import { getUser } from '../../../redux/utils/auth';
+import StatsPage from '../analytic/AnalyticPage';
 
 const { Content, Sider } = Layout;
 
@@ -36,6 +37,7 @@ const GroupAccountComponent: React.FC = () => {
                 uriUpdateFilesAction={`http://localhost:8081/papers/group/checks/${id}`}
                 uriNavigate='' />
             case `/group/${id}`: return <GroupsPage />
+            case  `/group/analytic/${id}` : return <StatsPage userId={id!}/>
             default: return <></>
         }
     }

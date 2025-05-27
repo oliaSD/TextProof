@@ -120,13 +120,19 @@ paths:
         500:
           description: Internal server error
 
-  /info:
+  /info/{username}:
     get:
       tags:
         - Users
       summary: Метод получения информации пользователя
       description: Метод получения информации пользователя
       operationId: info
+      parameters:
+        - name : username
+          in : path
+          required: true
+          schema:
+            type : string
       responses:
         200:
           description: Success

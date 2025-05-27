@@ -1,4 +1,4 @@
-package org.olga.semernik.groupservice.configuration.email;
+package org.olga.semernik.mailservice.email;
 
 
 import lombok.Getter;
@@ -12,5 +12,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "mail")
 public class EmailConfigProps {
 
-  private String baseUrl;
+  private String userUrl;
+
+  private String groupUrl;
 }

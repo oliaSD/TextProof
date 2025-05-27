@@ -30,7 +30,6 @@ public class CheckPaperService {
     PapersEntity papers = paperEntityService.findById(paperId);
     if (papers.getReport() == null) {
       ReportEntity reportEntity = new ReportEntity();
-      reportEntity.setPercent(BigDecimal.ZERO);
       papers.setReport(reportEntity);
       reportEntity.setPapers(papers);
       reportEntityService.saveReportEntity(reportEntity);

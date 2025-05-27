@@ -37,6 +37,7 @@ public class UserEntity implements UserDetails {
   private String username;
 
   @Column(nullable = false)
+  @Setter
   private String password;
 
   @Column(nullable = false)

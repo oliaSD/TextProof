@@ -23,18 +23,6 @@ public class Group {
   @Column(nullable = false)
   private String name;
 
-  @Column(length = 500)
-  private String description;
-
-  @CreationTimestamp
-  private LocalDateTime createdAt;
-
-  @UpdateTimestamp
-  private LocalDateTime updatedAt;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  private User admin;
-
   @ManyToMany
   @JoinTable(
       name = "group_group_members",
@@ -43,9 +31,5 @@ public class Group {
   )
   private Set<User> members = new HashSet<>();
 
-  @Column(nullable = false)
-  private Boolean isPublic = false;
-
-  private String avatarUrl;
 
 }
