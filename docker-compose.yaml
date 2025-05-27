@@ -29,6 +29,35 @@ services:
       - postgresql
     volumes:
       - .m2:/root/.m2
+  mail_service:
+    image: semernik/mail_service
+    build: ./backend/mail-service
+    restart: always
+    ports:
+      - 8083:8083
+    networks:
+      - postgres-net
+    environment:
+      - spring.datasource.url=jdbc:postgresql://postgresql:5432/antiplagiat
+    depends_on:
+      - postgresql
+    volumes:
+      - .m2:/root/.m2
+    
+  analytic_service:
+    image: semernik/analytic_service
+    build: ./backend/analytic-service
+    restart: always
+    ports:
+      - 8084:8084
+    networks:
+      - postgres-net
+    environment:
+      - spring.datasource.url=jdbc:postgresql://postgresql:5432/antiplagiat
+    depends_on:
+      - postgresql
+    volumes:
+      - .m2:/root/.m2
   
   
   paper_service:
