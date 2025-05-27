@@ -25,7 +25,7 @@ services:
     networks:
       - postgres-net
     environment:
-      API_USER_BASE_URL :  http://user/8080/
+      API_USER_BASE_URL :  http://user:8080/
       API_MAIL_BASE_URL : http://mail:8083/
       spring.datasource.url : jdbc:postgresql://postgresql:5432/antiplagiat
     depends_on:
@@ -72,7 +72,7 @@ services:
     networks:
       - postgres-net
     environment:
-      - spring.datasource.url=jdbc:postgresql://postgresql:5432/antiplagiat?currentSchema=papers_schema
+      - spring.datasource.url=jdbc:postgresql://postgresql:5432/antiplagiat
     depends_on:
       - postgresql
     volumes:
