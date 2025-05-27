@@ -46,8 +46,8 @@ api:
       root-uri: "customsearch.googleapis.com"
       schema: 'https'
       path: '/customsearch/v1'
-      api: "AIzaSyCLYHGk6oqrZ18FEV3O2tgYcQhzViBydmo"
-      cx: "30b05c392065243bd"
+      api: "AIzaSyARiigMB74Zr19oZ1QqegZTBq6ZsTwzh_0"
+      cx: "a1a35c47065af40dd"
   internal:
     web-search:
       base-url: http://127.0.0.1:7001

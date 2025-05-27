@@ -33,8 +33,8 @@ spring:
           writetimeout: 5000
 
 mail:
-  user_url: http://localhost:8080/activate/
-  group_url : http://localhost:8082/groups/
+  user_url: ${USER_ACTIVE_URL:http://localhost:3000/activate/}
+  group_url : ${GROUP_ACTIVE_URL:http://localhost:3000/groups/}
 
 server:
   port : 8083

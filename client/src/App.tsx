@@ -22,6 +22,8 @@ import AdminPage from './pages/account/admin/AdminPage';
 import GroupsPage from './pages/account/group/Group';
 import { GroupDetailPage } from './pages/account/group/Groupdetail';
 import GroupAccountComponent from './pages/account/group/GroupAccount';
+import LoadingRedirectPage from './pages/loading/LoadingPage';
+import LoadingRedirectPageGroup from './pages/loading/LoadingPageGroup';
 
 
 function App() {
@@ -47,13 +49,18 @@ function App() {
           <Route path='check' element={<CheckComponent />} />
           <Route path='grammar' element={<GrammarComponent />} />
           <Route path='analytics' element={<AnalyticComponent />} />
-          <Route path='admin' element={<AdminPage />} />
+          <Route path='activate/:activationCode' element={<LoadingRedirectPage />} />
+          <Route path='groups/:groupId/:username' element={<LoadingRedirectPageGroup />} />
           <Route path='account' element={<AccountComponent />} />
           <Route path='group/:id' element={<GroupAccountComponent />} />
           <Route path='group/file/:id' element={<GroupAccountComponent />} />
           <Route path='group/check/:id' element={<GroupAccountComponent />} />
-          <Route path='group/analytic/:id'element={<GroupAccountComponent />} />
+          <Route path='group/analytic/:id' element={<GroupAccountComponent />} />
           <Route path='account/*' element={<AccountComponent />} />
+          {user.user.role === "ROLE_ADMIN" ?
+            <Route path='admin' element={<AdminPage />} /> : <></>
+          }
+
           <Route path="*" element={
             <HomeComponent />
           } />

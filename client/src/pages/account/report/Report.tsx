@@ -7,7 +7,7 @@ import axios from "axios";
 import './report.css';
 import dayjs from "dayjs";
 import PdfViewer from "./FullReport";
-import { EyeOutlined, FileTextOutlined } from '@ant-design/icons';
+import { EyeOutlined, FileTextOutlined, PrinterFilled } from '@ant-design/icons';
 import { Pie } from '@antv/g2plot';
 import { PieChartComponent } from "./Chart";
 
@@ -159,7 +159,11 @@ export const ReportComponent: React.FC = () => {
         ]
     }
 
-   
+    const handleClick = (url: string) => {
+        window.open(url, '_blank');
+    };
+
+
 
     // const config = {
     //     appendPadding: 10,
@@ -168,7 +172,7 @@ export const ReportComponent: React.FC = () => {
     //     radius: 1,
     //     innerRadius: 0.6,
     //     startAgile: 0,
-        
+
     //     label: {
     //         type: 'inner',
     //         offset: '-8%',
@@ -242,9 +246,23 @@ export const ReportComponent: React.FC = () => {
                 >
                     {showPdf ? 'Краткий отчет' : 'Полный отчет'}
                 </Button>
-
+                <Button
+                    type="primary"
+                    icon={ <PrinterFilled />}
+                    onClick={() => handleClick(`http://localhost:8081/full/report/get/${reportId.reportId}`)}
+                    style={{
+                        position: 'fixed',
+                        top: '20vh',
+                        right: '20px',
+                        zIndex: 1000,
+                        background: 'black',
+                        borderColor: 'white'
+                    }}
+                >
+                    Открыть отчет на печать
+                </Button>
                 {showPdf ? (
-                    <PdfViewer  fileUrl = {`http://localhost:8081/full/report/paper/${reportId.reportId}`}/>
+                    <PdfViewer fileUrl={`http://localhost:8081/full/report/paper/${reportId.reportId}`} />
                 ) : (
                     <>
                         <h2 style={headerStyle}>

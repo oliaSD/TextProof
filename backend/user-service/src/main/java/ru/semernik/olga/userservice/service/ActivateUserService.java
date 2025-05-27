@@ -18,7 +18,7 @@ public class ActivateUserService {
 
   public void getActivateUser(String activateCode) {
     var findUser = userRepository.findByActivateCode(activateCode).orElseThrow(() ->
-        new NotFoundUserException(HttpStatus.NOT_FOUND, "User not found")
+        new NotFoundUserException(HttpStatus.NOT_FOUND, "User not found with activate code: " + activateCode)
     );
     if (findUser.getAccountStatus() != UserActiveStatus.ACTIVE) {
       findUser.setAccountStatus(UserActiveStatus.ACTIVE);

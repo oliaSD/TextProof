@@ -124,6 +124,9 @@ const LoginForm: React.FC = () => {
           }
           authUser(user.password, user.username, response.data.token, user.role as string)
           dispatch(auth(user))
+          if (user.role === "ROLE_ADMIN"){
+            navigate("/admin");
+          }
           navigate("/account/file");
         } catch (decodeError) {
           console.error('Error decoding token:', decodeError);

@@ -2,10 +2,10 @@ package ru.semernik.olga.paperservice.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.semernik.olga.paperservice.dao.repository.ReportRepository;
 import ru.semernik.olga.paperservice.io.dto.FileMetadata;
 import ru.semernik.olga.paperservice.io.dto.ReportData;
@@ -42,7 +42,7 @@ public class FullReportService {
                 .pageCount(0)
                 .build()
         ).user(User.builder().username(findReport.getPapers().getOwnerName()).build())
-        .reportUrl("ZZZ")
+        .reportUrl(ServletUriComponentsBuilder.fromCurrentRequest().toUriString())
         .sources(findReport.getReportsSources().stream().map(
             e -> Source.builder()
                 .url(e.getUrl())
