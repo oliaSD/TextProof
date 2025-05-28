@@ -42,9 +42,9 @@ public class DetectorCitationText {
     }
 
     // Проверка прямых цитат с кавычками
-    if (containsDirectQuotation(text)) {
-      return true;
-    }
+//    if (containsDirectQuotation(text)) {
+//      return true;
+//    }
 
     // Проверка ссылок на автора
     if (containsAuthorReference(text)) {

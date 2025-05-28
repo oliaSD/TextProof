@@ -61,49 +61,51 @@ public class PDFTextHighlighter {
 
         private StringBuilder currentParagraphText = new StringBuilder();
         private List<TextPosition> textPositions = new ArrayList<>();
+        private TextPosition lastX = null;
 
         @Override
         protected void writeString(String text, List<TextPosition> textPositions)
             throws IOException {
 
           if (textPositions != null && !textPositions.isEmpty()) {
+            if (lastX == null) {
+              lastX = textPositions.getLast();
+            }
 
             TextPosition firstPosition = textPositions.getFirst();
-            float xPosition = firstPosition.getXDirAdj();
-            var currentText = currentParagraphText.toString().trim();
-            if (firstPosition.getUnicode().equals(" ") || currentText.isBlank() && strings.stream().
-                anyMatch(e -> e.trim().contentEquals(currentText))) {
 
-              if (!currentText.isBlank() && strings.stream().
-                  anyMatch(e -> e.trim().startsWith(currentText))) {
-                String tokensText = textTokenExtractor.getTextTokens(
-                    strings.stream().filter(e -> e.trim().startsWith(currentText)).findFirst()
-                        .orElseGet(() -> " "));
-                if (!tokensText.isEmpty() && tokensText.length() > maxCountResponse) {
-                  if (detectorCitationText.isQuote(currentText)) {
-                    citationText.add(tokensText);
-                    highlightTextPosition(document, getCurrentPage(), textPositions,
-                        new PDColor(new float[]{1.0f, 1.0f, 0.0f}, PDDeviceRGB.INSTANCE));
-                  } else {
-                    var result = detectorBorrowingText.isBorrowing(currentText);
-                    if (result.isBorrowingText()) {
-                      borrowingText.add(result);
-                      highlightTextPosition(document, getCurrentPage(), this.textPositions,
-                          new PDColor(new float[]{1.0f, 0.0f, 0.0f}, PDDeviceRGB.INSTANCE));
-                    }
+            var currentText = currentParagraphText.toString().trim();
+            if (!currentText.isBlank() && firstPosition.getUnicode().equals(" ")
+                || isStartNewPar(lastX, firstPosition)
+            ) {
+              String tokensText = textTokenExtractor.getTextTokens(currentText);
+              if (!tokensText.isEmpty() && tokensText.length() > maxCountResponse) {
+                if (detectorCitationText.isQuote(currentText)) {
+                  citationText.add(tokensText);
+                  highlightTextPosition(document, getCurrentPage(), textPositions,
+                      new PDColor(new float[]{1.0f, 1.0f, 0.0f}, PDDeviceRGB.INSTANCE));
+                } else {
+                  var result = detectorBorrowingText.isBorrowing(currentText);
+                  if (result.isBorrowingText()) {
+                    borrowingText.add(result);
+                    highlightTextPosition(document, getCurrentPage(), this.textPositions,
+                        new PDColor(new float[]{1.0f, 0.0f, 0.0f}, PDDeviceRGB.INSTANCE));
                   }
-                  currentParagraphText = new StringBuilder();
-                  this.textPositions = new ArrayList<>();
                 }
+                currentParagraphText = new StringBuilder();
+                this.textPositions = new ArrayList<>();
               }
             }
+            String fullText = text.replace("\n", " ");
+            currentParagraphText.append(fullText);
+            lastX = textPositions.getLast();
+            this.textPositions.addAll(textPositions);// Удаляем лишние переносы строк
+            wordCount += TextTokenExtractor.countWord(text);
           }
-          String fullText = text.replace("\n", " ");
-          currentParagraphText.append(fullText);
-          assert textPositions != null;
-          this.textPositions.addAll(textPositions);// Удаляем лишние переносы строк
-          wordCount += TextTokenExtractor.countWord(text);
+        }
 
+        private boolean isStartNewPar(TextPosition prefLastX, TextPosition currentX) {
+          return prefLastX.getEndX() < 540f && currentX.getEndX() > 120f;
         }
 
         private void processParagraph(String paragraph) {
